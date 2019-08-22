@@ -1,0 +1,33 @@
+<?php 
+$tr=Application_Form_FrmLanguages::getCurrentlanguage();
+$session_user=new Zend_Session_Namespace(SYSTEM_SES_FRONT);
+$username = $session_user->full_name;
+$user_id = $session_user->user_id;
+
+$request=Zend_Controller_Front::getInstance()->getRequest();
+$action=$request->getActionName();
+$controller=$request->getControllerName();
+$module=$request->getModuleName();
+?>
+			<span class="nav-open" onclick="openNav()">&#9776;</span>
+			<div id="mySidenav" class="sidenav">
+				  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+				  <div class="user-block">
+					<span class="glyphicon glyphicon-user"></span> 
+					<span class="lb-user-name"> <?php echo $username;?></span>
+				  </div>
+				  <ul class="menu-list">
+					<li>
+						<a class="<?php if ($action=="document"){ echo "active";}?>" href="<?php echo $this->baseUrl()."/index/document";?>"><span class="glyphicon glyphicon-folder-open"></span> <span class="sp-menu-title"><?php echo $tr->translate("DOCUMENT_IN_HAND")?></span></a>
+					</li>
+					<li>
+						<a class="<?php if ($action=="home"){ echo "active";}?>" href="<?php echo $this->baseUrl()."/index/home";?>"><span class="glyphicon glyphicon-qrcode"></span> <span class="sp-menu-title"><?php echo $tr->translate("SCAN_DOCUMENT")?></span></a>
+					</li>
+					<li>
+						<a class="<?php if ($action=="changepassword"){ echo "active";}?>" href="<?php echo $this->baseUrl()."/index/changepassword";?>"><span class="glyphicon glyphicon-wrench"></span> <span class="sp-menu-title"><?php echo $tr->translate("CHANGE_PASSWORD")?></span></a>
+					</li>
+					<li>
+						<a href="<?php echo $this->baseUrl()."/index/logouts";?>"><span class="glyphicon glyphicon-off"></span> <span class="sp-menu-title"><?php echo $tr->translate("LOG_OUT")?></span></a>
+					</li>
+				  </ul>
+			</div>

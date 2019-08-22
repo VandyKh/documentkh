@@ -23,7 +23,7 @@ class Document_indexController extends Zend_Controller_Action {
 			}
 			$rs_rows= $db->getAllDocument($search);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Subject","Ministry Admin No","Deaprtment Admin No","From Department","Document Type","Issue Date","NOTE","DATE","BY_USER","STATUS");
+			$collumns = array("SUBJECT","MINISTRY_ADMIN_NO","DEPARTMENT_ADMIN_NO","FROM_DEPARTMENT","DOCUMENT_TYPE","ISSUE_DATE","NOTE","DATE","BY_USER","STATUS");
 			$link=array(
 					'module'=>'document','controller'=>'index','action'=>'edit',);
 			$link1=array(

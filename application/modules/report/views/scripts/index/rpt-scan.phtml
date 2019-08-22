@@ -169,7 +169,7 @@ dojo.require("dijit.form.DateTextBox");
 						</thead>
 						<tbody>
 		              	<?php if (!empty($this->rs)) foreach ($this->rs as $key => $rs){?>
-		              		<tr class="data-list context-menu-one" oncontextmenu="setrowdata(<?php echo $rs['id'];?>);return false;" > 
+		              		<tr class="data-list "  > 
 		              			<td align="center"><?php echo $key+1;?></td>
 		              			<td align="center" ><?php echo $rs['subject']?></td>
 		              			<td align="center" ><?php echo $rs['doc_type']?></td>
@@ -194,7 +194,7 @@ dojo.require("dijit.form.DateTextBox");
 </div>
 <script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
 <?php 
-$urlProfile = $this->baseUrl()."/report/index/client-profile/id/";
+$urlProfile = $this->baseUrl()."/report/index/detail-doc/id/";
 ?>
 <script type="text/javascript">
 dojo.require("dojo.data.ItemFileWriteStore");  
@@ -208,21 +208,13 @@ $(function(){
 		callback: function(key, options) {
 		
 			var m = "clicked: " + key;
-			if(key=="profile"){
+			if(key=="detail"){
 				url='<?php echo $urlProfile;?>';
-			}else if(key=="map"){
-				vill = dijit.byId('map'+row).get('value');
-				if(vill==""){
-					alert("<?php echo $tr->translate("NO_MAP");?>");
-					return false;
-				}
-				url = vill;
 			}
 			gotoAction();
 		},
 		items: {
-			"profile": {name: "<?php echo $tr->translate("CUSTOMER_PROFILE");?>", icon: "fa-file-text"},
-			"map": {name: "<?php echo $tr->translate("MAP");?>", icon: "fa-file-text"},
+			"detail": {name: "<?php echo $tr->translate("DETAIL");?>", icon: "fa-file-text"},
 		}
 	});
 });

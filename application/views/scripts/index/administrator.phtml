@@ -1,0 +1,149 @@
+<?php
+	$base_url = Application_Form_FrmMessage::getUrl("/");
+	$tr=Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($this->data["system_name"].'--System');
+	echo $this->headTitle();
+	
+	$key = new Application_Model_DbTable_DbKeycode();
+	$datasetting =$key->getKeyCodeMiniInv(TRUE);
+	$logo = $this->baseUrl()."/images/photo/logo/Logo.png";
+	if (!empty($datasetting['logo'])){
+		if (file_exists(PUBLIC_PATH."/images/photo/logo/".$datasetting['logo'])){
+			$logo = $this->baseUrl()."/images/photo/logo/".$datasetting['logo'];
+		}
+	}
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		
+	<script src="<?php echo $base_url;?>js/dojo-1.6.1/dojo/dojo.js"  djConfig="isDebug: true,parseOnLoad: true"></script>
+	<script>dojoConfig = {parseOnLoad: true}</script>
+	<link rel="stylesheet" type="text/css" href="<?php echo $base_url;?>js/dojo-1.6.1/dijit/themes/tundra/tundra.css"/>
+	<link rel="shortcut icon" href="<?php echo $this->baseUrl()."/"?>images/icon.ico" type="image/x-icon"/>
+	<script>	
+		require(["dojo/parser", "dijit/form/Form", "dijit/form/Button", "dijit/form/ValidationTextBox"]);
+	</script>
+	
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<!-- Meta, title, CSS, favicons, etc. -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="shortcut icon" href="<?php echo $base_url;?>images/icon.ico" type="image/x-icon"/>
+		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/bootstrap-4.3.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/bootstrap-4.3.1/css/bootstrap.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Battambang&display=swap" rel="stylesheet">
+		
+		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/datatable/datatables.min.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/datatable/responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
+		    
+		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/css/style.css" rel="stylesheet">
+		
+		<script src="<?php echo $this->baseUrl()."/templates/";?>plugin/1.11.3/jquery.min.js"></script>
+		
+		<style>
+			body {
+			    background: #f5f5f5;
+			}
+.fullside {
+		    width: 99%;
+		    height: 30px;
+		}
+		.dijitArrowButtonInner, .dijitIconSearch {
+		    margin-top: 6px !important;
+		}
+		.dijitTextBox, .dijitValidationTextBox, .dijitInputField, .dijitInputContainer, .dijitInputInner, dijitReset, .dijitRight, .dijitButtonNode, .dijitArrowButton, .dijitDownArrowButton, .dijitArrowButtonContainer {
+		    height: 35px;
+		border-radius: 5px;
+		padding: 0 5px;
+		}
+		.tundra .dijitButtonText {
+		    line-height: 24px;
+		}
+		.tundra .dijitInputContainer INPUT, .tundra .dijitTextBox {
+		    color: #000000;
+		    font-size: 16px;
+		}
+		.btn{
+			height: 40px;
+			min-width: 100px;	
+		}
+		.dijitPlaceHolder {
+		    color: #AAAAAA;
+		    font-style: italic;
+		    position: absolute;
+		    top: 3px;
+		    left: 11px;
+		}
+			.main-content-login {
+			    margin: 3% auto;
+			    position: relative;
+			    max-width: 520px;
+			    border-radius: 9px;
+			    border-color: rgba(98, 103, 115, 0.3);
+			    background-color: #ffffff;
+			    border: 2px solid #dedbdb;
+			    padding: 20px;
+			    margin-bottom: 20px;
+			}
+			.content-login.wrapper-page {
+			    padding: 30px;
+			    border-radius: 9px;
+			    border-color: rgba(98, 103, 115, 0.3);
+			}
+			div.logo-content {
+			    padding: 0;
+			}
+		</style>
+	</head>
+	<body class="tundra">
+		<div class="container">
+			<div class="main_container">
+				<div class="main-content-login">
+					<div class="row">
+						<div class="content-login wrapper-page">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12 logo-content">
+									<div class="logo text-center">
+										<img class="logo-detail" src="<?php echo $logo;?>" />
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							<div class="row row-control">
+								<div class="col-12 col-sm-12 col-md-12">
+									<form id="frmLogin" dojoType="dijit.form.Form"  method="post">
+										<div class="form-group">
+											<h4 style="font-family: 'Khmer OS Muol Light';"><i class="fa fa-lock" aria-hidden="true"></i> <?php echo $tr->translate("SECURITY_SYSTEM");?></h4>
+					    					<?php if (!empty($this->msg)){?>
+					    					<span style=" color: #f9ba00; padding: 5px 0;  display: block;  text-shadow: 0px 0px #966d6d;"><?php echo $this->msg;?></span>
+					    					<?php }?>
+										</div>
+										<div class="form-group">
+											<label for="exampleInputEmail1"><?php echo $tr->translate("ACCOUNT_NAME")?></label>
+											<input class="fullside" type="text" required="true" name="txt_user_name" id="txt_user_name" placeholder="<?php echo $tr->translate("ACCOUNT_NAME");?>" 
+									data-dojo-type="dijit/form/ValidationTextBox" missingMessage="<?php echo $tr->translate("PLEASE_ENTER_ACCOUNT_NAME");?>! " style="width: 100%;"/>
+										</div>
+										<div class="form-group">
+											<label for="exampleInputPassword1"><?php echo $tr->translate("PASSWORD")?></label>
+											<input class="fullside" type="password" required="true" name="txt_password" id="txt_password" placeholder="<?php echo $tr->translate("PASSWORD");?>" 
+								data-dojo-type="dijit/form/ValidationTextBox" missingMessage="<?php echo $tr->translate("PLEASE_ENTER_PASSWORD");?>!" style="width: 100%;"/>
+											<input type="hidden" data-dojo-type="dijit/form/ValidationTextBox"  class="form-control" id="lang"  name="lang" value="1">
+										</div>
+										<div class="form-group text-center">
+											 <button type="submit" class="btn btn-primary btn-login"><span class="glyphicon glyphicon-lock"></span> <?php echo $tr->translate("LOGIN")?></button>
+										</div>
+									 </form>
+								</div>
+							</div>
+						</div>
+						<div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

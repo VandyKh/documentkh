@@ -1,0 +1,53 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate("HOME"));
+?>
+
+	
+			
+					<?php 
+						echo $this->render('bloglogo.phtml');
+					?>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12 content-page-title">
+							<h3 class="page-title"><span class="glyphicon glyphicon-folder-open"></span> <span class="sp-title"><?php echo $tr->translate("DOCUMENT_IN_HAND")?></span></h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="dataTables_scrollBody" style="position: relative; width: 100%; background:#fff;   ">
+								<table border="1" id="datatable-responsive" style="  border-collapse: collapse; border-color: #ddd;"  class="display nowrap dataTable dtr-inline collapsed" cellspacing="0" width="100%" >
+									<thead>
+										<tr>
+											<th class="text-center">ល.រ</th>
+											<th class="text-center">លេខឯកសារ</th>
+											<th class="text-center">ពីនាយកដ្ខាន</th>
+											<th class="text-center">មតិយោបល់</th>
+											<th class="text-center">កាលបរិច្ឆេទ</th>
+											<th class="text-center">ស្ថានភាព</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php if (!empty($this->row)) foreach ($this->row as $key => $rs){?>
+										<tr class="row-odd">
+											<td class="text-center"><?php echo $key+1?></td>
+											<td><?php echo $rs['department_admin_no']?></td>
+											<td><?php echo $rs['fromDept']?></td>
+											<td class="text-center"><?php echo $rs['comment']?></td>
+											<td class="text-center"><?php echo date("d-m-Y",strtotime($rs['scanDate']))?></td>
+											<td class="text-center"><?php echo $rs['proccess']?></td>
+											
+										</tr>
+										<?php }?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					<div>
+				</div>
+			</div>
+		
+	
+	
+	
+

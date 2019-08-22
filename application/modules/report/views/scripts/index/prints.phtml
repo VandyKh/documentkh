@@ -1,0 +1,67 @@
+<?php 
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	
+	$dbgb = new Application_Model_DbTable_DbGlobal();
+	
+	$key = new Application_Model_DbTable_DbKeycode();
+	$datasetting =$key->getKeyCodeMiniInv(TRUE);
+	$branch_title = $datasetting['client_company_name'];
+	
+	$row = $this->row;
+	$qrImages = "";
+	if (!empty($row['qrcode_image'])){
+		if (file_exists(PUBLIC_PATH."/images/photo/qrcode/".$row['qrcode_image'])){
+			$qrImages = $this->baseUrl()."/images/photo/qrcode/".$row['qrcode_image'];
+		}
+	}
+?>
+<meta charset="utf-8">
+<script>
+dojo.require("dijit.form.DateTextBox");
+</script>
+<title><?php echo $tr->translate("PRINT");?></title>
+<div class="reportblog">
+	<div class="content-report">
+		<div class="card-box" style="margin-bottom: 18px;">
+	       	<div class="col-sm-12 border-botom">
+		   		<div class="col-sm-8 pd-0">
+		    		<h4 class="m-b-0"><i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('PRINT');?></h4>
+	    		</div>
+	    		<div class="col-sm-4 text-right">
+	    		</div>
+	    	</div>
+	    	<div class="clearfix"></div>
+	    </div>
+		<div id="divPrint" style="margin: 0 auto; position: relative;">
+			<?php echo $this->printsDoc;?>
+			 
+		</div>
+	</div>
+	
+</div>
+<script>
+require(["dojo/ready"], function(ready){
+	 ready(function(){
+		 loadingBlock();
+		 
+		 printSave();
+		setTimeout(function () {
+	        HideloadingBlock();
+	    }, 500);
+		 
+	 });
+});	 
+function printSave(){
+	dojo.byId("lbDocNo").innerHTML = '<?php echo preg_replace( "/\r|\n/", "", strip_tags(htmlspecialchars($row['department_admin_no'])));?>';
+	dojo.byId("lbFromDept").innerHTML = '<?php echo preg_replace( "/\r|\n/", "", strip_tags(htmlspecialchars($row['fromDept'])));?>';
+	dojo.byId("lbSubj").innerHTML = '<?php echo preg_replace( "/\r|\n/", "", strip_tags(htmlspecialchars($row['subject'])));?>';
+
+	dojo.byId("lbDay").innerHTML = '<?php echo preg_replace( "/\r|\n/", "", strip_tags(htmlspecialchars(date("d",strtotime($row['issue_date'])))));?>';
+	dojo.byId("lbMonth").innerHTML = '<?php echo preg_replace( "/\r|\n/", "", strip_tags(htmlspecialchars($dbgb->monthKh(date("m",strtotime($row['issue_date']))))));?>';
+	dojo.byId("lbYear").innerHTML = '<?php echo preg_replace( "/\r|\n/", "", strip_tags(htmlspecialchars(date("Y",strtotime($row['issue_date'])))));?>';
+	
+	<?php if (!empty($qrImages)){?>
+	dojo.byId("qrBlog").innerHTML = '<img class="qrImg" src="<?php echo $qrImages;?>" />';
+	<?php }?>
+}
+</script>

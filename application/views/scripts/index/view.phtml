@@ -1,0 +1,61 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate("VIEW")."---".$this->row['subject']);
+?>
+
+	
+			<div class="content-document">
+					<?php 
+						echo $this->render('bloglogo.phtml');
+					?>
+					<div class="row row-head-doc">
+						<div class="col-12 col-sm-3 col-md-3">
+						</div>
+						<div class="col-12 col-sm-6 col-md-6">
+							<ul class="doc-title-list">
+								<li>
+									<span class="title-lb"><?php echo $tr->translate("SUBJECT")?></span> : <?php echo $this->row['subject'];?>
+								</li>
+								<li><span class="title-lb"><?php echo $tr->translate("MINISTRY_ADMIN_NO")?></span> : <?php echo $this->row['ministry_admin_no'];?></li>
+								<li><span class="title-lb"><?php echo $tr->translate("DEPARTMENT_ADMIN_NO")?></span> : <?php echo $this->row['department_admin_no'];?></li>
+								<li><span class="title-lb"><?php echo $tr->translate("DEPARTMENT")?></span> : <?php echo $this->row['fromDept'];?></li>
+							</ul>
+						</div>
+						<div class="col-12 col-sm-3 col-md-3">
+						</div>
+					</div>
+					<div class="row row-content-document">
+						<div class="col-12 col-sm-12 col-md-12">
+							<?php if (!empty($this->scanRecord)){?>
+							<table class="tb-list-doc" border="1">
+								<thead>
+									<tr>
+										<th><?php echo $tr->translate("NUM")?></th>
+										<th><?php echo $tr->translate("DEPARTMENT_RECEIVED")?></th>
+										<th><?php echo $tr->translate("OFFICER_NAME")?></th>
+										<th><?php echo $tr->translate("RECEIVED_DATE")?></th>
+										<th><?php echo $tr->translate("COMMENT")?></th>
+										<th><?php echo $tr->translate("PROCCESS")?></th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php foreach ($this->scanRecord as $key => $row){?>
+									<tr>
+										<td class="text-center"><?php echo $key+1?></td>
+										<td><?php echo $row['department'];?></td>
+										<td><?php echo $row['scanBy'];?></td>
+										<td  class="text-center"><?php echo date("d-mY",strtotime($row['create_date']));?></td>
+										<td><?php echo $row['comment'];?></td>
+										<td  class="text-center"><?php echo $row['proccess'];?></td>
+									</tr>
+									<?php }?>
+								</tbody>
+							</table>
+							<?php }?>
+						</div>
+					</div>
+		
+			</div>
+	
+	
+

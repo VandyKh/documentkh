@@ -1,0 +1,216 @@
+<?php 
+	$frm = $this->frm_search;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	
+	$dbGB = new Application_Model_DbTable_DbGlobal();
+	$logo = $this->baseUrl()."/images/logo.jpg";
+	
+	$key = new Application_Model_DbTable_DbKeycode();
+	$datasetting =$key->getKeyCodeMiniInv(TRUE);
+	$branch_title = $datasetting['client_company_name'];
+?>
+<meta charset="utf-8">
+<script>
+dojo.require("dijit.form.DateTextBox");
+</script>
+<title><?php echo $tr->translate("DOCUMENT_REPORT");?></title>
+<div class="reportblog">
+	<div class="content-report">
+		<div class="card-box">
+	       	<div class="col-sm-12 border-botom">
+		   		<div class="col-sm-8 pd-0">
+		    		<h4 class="m-b-0"><i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('DOCUMENT_REPORT');?></h4>
+	    		</div>
+	    		<div class="col-sm-4 text-right">
+	    		</div>
+	    	</div>
+	    </div>
+	    <div class="card-box">
+	   		 <form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+					<div class="form-group"> 
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement("adv_search");?>
+						</div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement("from_dept");?>
+						</div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement("document_type");?>
+						</div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement('start_date');?>
+						</div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement('end_date');?>
+						</div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+						</div>
+					</div>
+				</form>
+		</div>
+		<div id="divPrint" style="margin: 0 auto;">
+		<style>
+			.hover:hover{ background: #ccc;}
+			.style{
+				line-height: 20px;font-size: 14px !important;
+				font-family:'Times New Roman','Khmer OS Battambang';
+			}
+			table { page-break-inside:auto }
+			tr{ page-break-inside:avoid; page-break-after:auto; }
+			#header {
+			  display: table-header-group;
+			  page-break-inside:avoid; page-break-after:auto;
+			}
+			table tr td ul li{text-align: center;list-style: none;line-height: 25px; }
+			th{padding: 5px;}
+			.hover td{padding: 1px;}
+			.hide{visibility: hidden;}
+			@media print {
+			  div.divFooter {
+			    position: fixed;
+			    top: 0;
+			  	width: 100%;
+			  	height: 100px;
+			  	bottom:0px;
+				margin:0;
+			  }
+			.hide{visibility: visible; height: 110px;}
+			}
+			.divFooter table{
+				font-family: 'Times New Roman','Khmer OS Battambang';
+				margin:0; 
+				padding:0; 
+				border:none;
+			}
+			table.content-data{
+				border-collapse:collapse;
+				border:1px solid #000; 
+				font-size:13px;
+			}
+			table.content-data thead tr.style {
+			   line-height: 25px; font-size:12px !important; padding:1px 0px; white-space: nowrap;height: 22px; 
+			}
+			table.content-data thead tr td{
+				padding: 0 5px;
+				font-weight: 600;
+			}
+			table.tb-footer{
+			border-collapse:collapse;
+			border:1px solid #000; 
+			font-size:13px;
+			}
+			td.bold{ font-weight: 600;}
+			td.nowrap {
+			    white-space: nowrap;
+			}
+			tr.data-list td{ padding: 0 5px; }
+			table.tb-footer tr{
+			 line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;
+			}
+			.border_bottom {
+			    border-bottom: 2px solid #000;
+			}
+		</style>
+		<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;">
+			<tr>
+		    	<td align="center">
+		        	<div class="divFooter">
+			        	<table width="100%">
+			            	<tr>
+			                	<td width="30%"><img src="<?php echo $logo;?>" height="85px" ></td>
+			                	<td width="40%" valign="top">
+			                		<ul>
+			                			<li style="text-align:center; font-size:<?php echo FONTSIZE_REPORT;?>; font-family:'Khmer OS Muol Light'"><?php echo $branch_title;?></li>
+			                			<li style="text-align:center; font-size:<?php echo FONTSIZE_REPORT;?>; font-family:'Khmer OS Muol Light'"><?php echo $tr->translate("DOCUMENT_REPORT");?></li>
+			                			<li style="text-align:center; font-size:<?php echo FONTSIZE_REPORT;?>;"><?php if(!empty($this->search['start_date'])){echo date("d-M-Y",strtotime($this->search['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->search['end_date']));}?></li>
+			                		</ul>
+			                	</td>
+			                    <td width="30%"></td>
+			                </tr> 
+			            </table>
+		            </div>
+		        </td>
+		    </tr>
+		    <tr>
+		    	<td id="exportExcel">
+		            <table class="content-data" border="1"​ width="100%" cellspacing="0">
+		                <thead>
+							<tr class="hide" style="border:1px solid #000;">
+								<td colspan="17" style="border:1px solid #fff;border-bottom:1px solid #000;"></td>
+							</tr>
+							<tr bgcolor="#c1d0f3" class="style" align="center" >
+								<td><?php echo $tr->translate("NUM");?></td>
+								<td><?php echo $tr->translate("SUBJECT");?></td>
+								<td><?php echo $tr->translate("MINISTRY_ADMIN_NO");?></td>
+								<td><?php echo $tr->translate("DEPARTMENT_ADMIN_NO");?></td>
+								<td><?php echo $tr->translate("FROM_DEPARTMENT");?></td>
+								<td><?php echo $tr->translate("DOCUMENT_TYPE");?></td>
+								<td><?php echo $tr->translate("ISSUE_DATE");?></td>
+								<td><?php echo $tr->translate("NOTE");?></td>
+								<td><?php echo $tr->translate("CREATE_DATE");?></td>
+								<td><?php echo $tr->translate("MODIFY_DATE");?></td>
+								<td><?php echo $tr->translate("USER");?></td>
+								<td><?php echo $tr->translate("STATUS");?></td>
+							</tr>
+						</thead>
+						<tbody>
+		              	<?php if (!empty($this->rs)) foreach ($this->rs as $key => $rs){?>
+		              		<tr class="data-list context-menu-one" oncontextmenu="setrowdata(<?php echo $rs['id'];?>);return false;" > 
+		              			<td align="center"><?php echo $key+1;?></td>
+		              			<td align="center" ><?php echo $rs['subject']?></td>
+		              			<td align="center" ><?php echo $rs['ministry_admin_no']?></td>
+		              			<td align="center" ><?php echo $rs['department_admin_no']?></td>
+		              			<td align="center" ><?php echo $rs['from_department']?></td>
+		              			<td align="center" ><?php echo $rs['doc_type']?></td>
+		              			<td ><?php echo $rs['issue_date']?></td>
+		              			<td ><?php echo $rs['note']?></td>
+		              			<td ><?php echo $rs['create_date']?></td>
+		              			<td ><?php echo $rs['modify_date']?></td>
+		              			<td ><?php echo $rs['user_name']?></td>
+		              			<td ><?php echo $rs['status_label']?></td>
+		              		</tr>
+		              	<?php }?>
+						</tbody>
+		            </table>
+		    	</td>
+		    </tr>
+		</table>
+		</div>
+	</div>
+	
+</div>
+<script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
+<?php 
+$urlPrint = $this->baseUrl()."/report/index/prints/id/";
+?>
+<script type="text/javascript">
+dojo.require("dojo.data.ItemFileWriteStore");  
+dojo.require("dijit.form.DateTextBox");
+
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+		
+			var m = "clicked: " + key;
+			if(key=="print"){
+				url='<?php echo $urlPrint;?>';
+			}
+			gotoAction();
+		},
+		items: {
+			"print": {name: "<?php echo $tr->translate("PRINT");?>", icon: "fa-print"},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
+}
+</script>

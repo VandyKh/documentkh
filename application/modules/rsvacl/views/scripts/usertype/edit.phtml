@@ -1,0 +1,78 @@
+
+<?php 
+	$cancel_url=$this->url(array(
+			'module'=>'rsvacl',
+			'controller'=>'usertype',
+			'action'=>'index',
+		));
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php echo $tr->translate('EDITUSERTYPE');?></title>
+<div class="card">
+	<div class="card-content collapse show">
+		<form action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+			<script type="dojo/method" event="onSubmit">										
+				if(this.validate()) {								
+					return true;
+				}
+				return false;
+			</script>
+			<div class="card-box">
+               	<div class="col-sm-12 border-botom">
+		    		<div class="col-sm-8 pd-0">
+		    			<h4 class="m-b-0"><i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('EDITUSERTYPE');?></h4>
+	    			</div>
+	    			<div class="col-sm-4 text-right">
+	    			</div>
+	    		</div>
+	    	</div>
+	    	<div class="card-box">
+	    		<div class="col-md-6 col-sm-6 col-xs-12">
+	    			<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("USER_TYPE");?> :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+							<input type="text" required="true" name="user_type" id="user_type" placeholder="<?php echo $tr->translate('USER_TYPE');?>" 
+											dojoType="dijit.form.ValidationTextBox" value="<?php echo $this->usertype['user_type'];?>"	missingMessage="Invalid User type!" class='fullside'/>
+	                   </div>
+	                </div>
+				    <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PARENT");?> :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                    	<select onchange="disabledAgent(this.value);" class='fullside' name="parent_id" required="true" id="parent_id" 
+							 missingMessage="Invalid Parent Name!" dojoType="dijit.form.FilteringSelect"> 
+							 	<?php foreach ($this->usertype_list as $key => $ust) : ?>
+									<option value="<?php echo $key;?>"  <?php if($this->usertype['parent_id'] == $key) echo 'selected';?> ><?php echo $ust;?></option>
+								<?php endforeach;?>																																
+							</select> 
+	                   </div>
+	                </div>   
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?> :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                    	<input name="note" id="note" placeholder="<?php echo $tr->translate('NOTE');?>" value="<?php echo $this->usertype['note'];?>" dojoType="dijit.form.TextBox" class='fullside'/>
+												
+	                   </div>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?> :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                    	<select class='fullside' name="status" id="status" dojoType="dijit.form.FilteringSelect"> 
+								<option value="1"  <?php if($this->usertype['status'] == 1) echo 'selected';?> ><?php echo $tr->translate("ACTIVE");?></option>
+								<option value="0"  <?php if($this->usertype['status'] == 0) echo 'selected';?> ><?php echo $tr->translate("DEACTIVE");?></option>
+							</select> 
+	                   </div>
+	                </div>
+	                <div class="clearfix"></div>
+               		<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+               			<input type="hidden" name="user_type_id" value="<?php echo $this->user_edit['id'];?>" />
+               			<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 
+			    	</div>
+	    		</div>
+	    	</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,220 @@
+ <?php
+	$tr=Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate("Dashboard System"));
+	echo $this->headTitle();
+	$db = new Home_Model_DbTable_DbDashboard();
+	$base_url = Application_Form_FrmMessage::getUrl("/");
+	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
+	$level = $session_user->level;
+?>
+<style>
+ .dijitHidden{
+ 	display: none;
+}
+.button-box.capital-box {
+    min-height: 115px;
+}
+div.button-blog {
+    padding: 2px;
+}
+ </style>
+<!--Morris Chart CSS -->
+<link rel="stylesheet" href="<?php echo $this->baseUrl()."/"?>dashboard/plugins/morris/morris.css">
+<!-- Icons CSS -->
+<link href="<?php echo $this->baseUrl()."/"?>dashboard/css/icons.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="<?php echo $this->baseUrl()."/"?>dashboard/css/style.css" rel="stylesheet">
+
+
+<div id="page-wrapper">
+	<!-- Page content start -->
+	<div class="page-contentbar">
+		<!-- START PAGE CONTENT -->
+		<div id="page-right-content">
+			<div class="container">
+				 <div class="row">
+					<div class="col-lg-6">
+						<div class="card-box">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="accounting-management text-center">
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 button-blog">
+											<a title="<?php echo $tr->translate("CREATE_NEW_CUSTOMER")?>" href="<?php echo $this->baseUrl()."/group/index/add";?>">
+											<div class=" button-box capital-box" style="background: #0f2a5b;">
+												<span class="button-icon">
+												<i class="fa fa-user-plus" aria-hidden="true"></i>
+												</span>
+												<p class="month" data-bind="text: lang.lang.current_ratio"><?php echo $tr->translate("CREATE_NEW_CUSTOMER")?></p>
+											</div>
+											</a>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 button-blog">
+											<a title="<?php echo $tr->translate("CREATE_CATEGORY")?>" href="<?php echo $this->baseUrl()."/group/category/add";?>">
+											<div class="button-box capital-box" style="background: #0f575b;">
+												<span class="button-icon">
+												<i class="fa fa-sitemap" aria-hidden="true"></i>
+												</span>
+												<p class="month" data-bind="text: lang.lang.current_ratio"><?php echo $tr->translate("CREATE_CATEGORY")?></p>
+											</div>
+											</a>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 capital-box" style="width: 100%; background: #203864; color: #fff">
+											<span data-bind="text: txnRecorded"><?php echo sprintf('%02d', $this->client);;?></span>
+											<p class="month" style="width: 70%; text-align: center; margin: 0 auto;" data-bind="text: lang.lang.transactions_recorded">
+											<i class="fa fa-users" aria-hidden="true"></i>
+											<?php echo $tr->translate("ALL_CUSTOMER")?>
+											</p>
+											<br />
+											<br />
+										</div>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 0;">
+											<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 capital-box" style="background: #0077c5;">
+												<span data-bind="text: currentRatio"><?php echo sprintf('%02d',$this->clientActive);?></span> 
+												<p class="month" data-bind="text: lang.lang.current_ratio">
+												<i class="fa fa-users" aria-hidden="true"></i>
+												<?php echo $tr->translate("ACTIVE_CUSTOMER")?>
+												</p>
+												<br /><br />
+											</div>
+											<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 capital-box" style="background: #21abf6; color: #fff;">
+												<span data-bind="text: quickRatio"><?php echo sprintf('%02d',$this->clientDeactive);?></span> 
+												<p class="month" style="color: #fff;" data-bind="text: lang.lang.quick_ratio">
+												<i class="fa fa-user-times " aria-hidden="true"></i>
+												<?php echo $tr->translate("DEACTIVE_CUSTOMER")?>
+												</p>
+												<br /><br />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div> <!-- end col -->	  
+					
+					 <div class="col-lg-6">
+						 <div class="card-box">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="accounting-management text-center">
+										<div class="row">
+											<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 button-blog">
+												<a title="<?php echo $tr->translate("CREATE_SERVICE")?>" href="<?php echo $this->baseUrl()."/group/service/add";?>">
+												<div class=" button-box capital-box" style="background: #0f2a5b;">
+													<span class="button-icon">
+													<i class="fa fa-sitemap" aria-hidden="true"></i>
+													</span>
+													<p class="month" data-bind="text: lang.lang.current_ratio"><?php echo $tr->translate("CREATE_SERVICE")?></p>
+												</div>
+												</a>
+											</div>
+											<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 button-blog">
+												<a title="<?php echo $tr->translate("CREATE_PRODUCT")?>" href="<?php echo $this->baseUrl()."/group/product/add";?>">
+												<div class="button-box capital-box" style="background: #0f575b;">
+													<span class="button-icon">
+													<i class="fa fa-cubes" aria-hidden="true"></i>
+													</span>
+													<p class="month" data-bind="text: lang.lang.current_ratio"><?php echo $tr->translate("CREATE_PRODUCT")?></p>
+												</div>
+												</a>
+											</div>
+											<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 button-blog">
+												<a title="<?php echo $tr->translate("CREATE_STANDARD")?>" href="<?php echo $this->baseUrl()."/group/standard/add";?>">
+												<div class="button-box capital-box" style="background: #144673;">
+													<span class="button-icon">
+													<i class="fa fa-desktop" aria-hidden="true"></i>
+													</span>
+													<p class="month" data-bind="text: lang.lang.current_ratio"><?php echo $tr->translate("CREATE_STANDARD")?></p>
+												</div>
+												</a>
+											</div>
+											<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 button-blog">
+												<a title="<?php echo $tr->translate("CREATE_MADE_BY")?>" href="<?php echo $this->baseUrl()."/group/madeby/add";?>">
+												<div class="button-box capital-box" style="background: #0077c5;">
+													<span class="button-icon">
+													<i class="fa fa-shield" aria-hidden="true"></i>
+													</span>
+													<p class="month" data-bind="text: lang.lang.current_ratio"><?php echo $tr->translate("CREATE_MADE_BY")?></p>
+												</div>
+												</a>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 button-blog">
+												<a title="<?php echo $tr->translate("ADD_STREET")?>" href="<?php echo $this->baseUrl()."/other/street/add";?>">
+												<div class=" button-box capital-box" style="background: #0f2a5b;">
+													<span class="button-icon">
+													<i class="fa fa-road" aria-hidden="true"></i>
+													</span>
+													<p class="month" data-bind="text: lang.lang.current_ratio"><?php echo $tr->translate("ADD_STREET")?></p>
+												</div>
+												</a>
+											</div>
+											<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 button-blog">
+												<a title="<?php echo $tr->translate("ADD_ZONE")?>" href="<?php echo $this->baseUrl()."/other/zone/add";?>">
+												<div class="button-box capital-box" style="background: #0f575b;">
+													<span class="button-icon">
+													<i class="fa fa-map-marker" aria-hidden="true"></i>
+													</span>
+													<p class="month" data-bind="text: lang.lang.current_ratio"><?php echo $tr->translate("ADD_ZONE")?></p>
+												</div>
+												</a>
+											</div>
+											<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 button-blog">
+												<a title="<?php echo $tr->translate("ADD_START_DIRECTION")?>" href="<?php echo $this->baseUrl()."/other/startdirection/add";?>">
+												<div class="button-box capital-box" style="background: #144673;">
+													<span class="button-icon">
+													<i class="fa fa-arrows-alt" aria-hidden="true"></i>
+													</span>
+													<p class="month" data-bind="text: lang.lang.current_ratio"><?php echo $tr->translate("ADD_START_DIRECTION")?></p>
+												</div>
+												</a>
+											</div>
+											<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 button-blog">
+												<a title="<?php echo $tr->translate("ADD_LINE")?>" href="<?php echo $this->baseUrl()."/other/line/add";?>">
+												<div class="button-box capital-box" style="background: #0077c5;">
+													<span class="button-icon">
+													<i class="fa fa-map-marker" aria-hidden="true"></i>
+													</span>
+													<p class="month" data-bind="text: lang.lang.current_ratio"><?php echo $tr->translate("ADD_LINE")?></p>
+												</div>
+												</a>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 button-blog">
+												<a title="<?php echo $tr->translate("ADD_STREET")?>" href="<?php echo $this->baseUrl()."/report/index/rpt-client";?>">
+												<div class=" button-box capital-box" style="background: #0f2a5b;">
+													<span class="button-icon">
+													<i class="fa fa-file-text" aria-hidden="true"></i>
+													</span>
+													<p class="month" data-bind="text: lang.lang.current_ratio"><?php echo $tr->translate("CUSTOMER_REPORT")?></p>
+												</div>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						
+						  
+					</div> <!-- end col -->	  
+				</div> <!-- end row -->
+				
+                 <div class="row-fluid">
+					<div style="margin-top: 10px; margin-left: 0;" align="center">
+						
+					</div>	
+				</div>       
+			</div>
+		</div>
+		<!-- END PAGE CONTENT -->
+	</div>
+</div>
+
+<!-- <script src="<?php //echo $this->baseUrl()."/"?>dashboard/js/jquery-2.1.4.min.js"></script> -->
+<!--Morris Chart-->
+<script src="<?php echo $this->baseUrl()."/"?>dashboard/plugins/morris/morris.min.js"></script>
+<script src="<?php echo $this->baseUrl()."/"?>dashboard/plugins/raphael/raphael-min.js"></script>
+

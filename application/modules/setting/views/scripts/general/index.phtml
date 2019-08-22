@@ -1,0 +1,137 @@
+<?php
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$this->headTitle($tr->translate('GENERAL_SETTING')); 
+echo $this->headTitle();
+$frm = $this->frm_general;
+?>
+<style>
+div.cke_contents.cke_reset {
+    height: 200px !important;
+}
+</style>
+<script src="<?php echo $this->baseUrl();?>/ckeditor/ckeditor.js"></script>
+
+<style>
+
+img.image_view {
+    width: 100%;
+	height: auto;
+}
+img#image_viewbg {
+    height: 50px;
+}
+.button_browse{
+	margin-top:0 !important;
+}
+.button_browse span {
+    padding: 0 5px;
+}
+tr.header {
+    background: #008;
+    color: #fff;
+}
+tr.header td {
+    padding: 5px;
+}
+</style>
+<form action="" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data" >
+	<script type="dojo/method" event="onSubmit">				
+			if(this.validate()) {
+				loadingBlock();
+				return true;
+			}
+			return false;
+	</script>
+<div class="card">
+	<div class="card-content collapse show">
+		<div class="card-box">
+	               	<div class="col-sm-12 border-botom">
+			    		<div class="col-sm-8 pd-0">
+			    			<h4 class="m-b-0"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('GENERAL_SETTING');?></h4>
+		    			</div>
+		    			<div class="col-sm-4 text-right">
+		    			</div>
+		    		</div>
+		    	</div>
+		    	<div class="card-box">
+		    		<div class="col-md-6">
+		    			<div class="form-group">
+		                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-user" aria-hidden="true"></i>Company Info 
+		                   </label>
+		                </div>
+		                <div class="form-group">
+		    				<div class="col-sm-4"><?php echo $tr->translate('ORGANIZATION')?></div>
+		    				<div class="col-sm-8"><?php echo $frm->getElement('client_company_name')?></div>
+		    			</div>
+		    			<div class="form-group">
+		    				<div class="col-sm-4"><?php echo $tr->translate('Phone')?></div>
+		    				<div class="col-sm-8"><?php echo $frm->getElement('telClient')?></div>
+		    			</div>
+		    			<div class="form-group">
+		    				<div class="col-sm-4"><?php echo $tr->translate('ADDRESS')?></div>
+		    				<div class="col-sm-8"><?php echo $frm->getElement('footer_branch')?></div>
+		    			</div>
+		    			<div class="form-group">
+		    				<div class="col-sm-4"><?php echo $tr->translate('EMAIL')?></div>
+		    				<div class="col-sm-8"><?php echo $frm->getElement('email_client')?></div>
+		    			</div>
+		    			<div class="form-group">
+		    				<div class="col-sm-4"><?php echo $tr->translate('WEBSITE')?></div>
+		    				<div class="col-sm-8"><?php echo $frm->getElement('website')?></div>
+		    			</div>
+		    			<div class="form-group">
+		    				<div class="col-sm-4"><?php echo $tr->translate('AMOUNT_DAY_ALERT')?></div>
+		    				<div class="col-sm-8"><?php echo $frm->getElement('amount_alertday')?></div>
+		    			</div>
+		    		</div>
+		    		<div class="col-md-4">
+		    			<div class="form-group">
+		    				<div class="col-sm-12">
+		    				<?php 
+		    					$logo = $this->baseUrl()."/images/photo/logo/Logo.png";
+		    					if (!empty($this->logo['value'])){
+		    						if (file_exists(PUBLIC_PATH."/images/photo/logo/".$this->logo['value'])){
+		    							$logo = $this->baseUrl()."/images/photo/logo/".$this->logo['value'];
+		    						}
+		    					}
+		    				?>
+		    					<img class="image_view" id="image_view" src="<?php echo $logo;?>" alt=""  />
+								<div class="button_browse">
+									<span>Change Logo<span><i class="fa fa-camera" aria-hidden="true"></i></span></span>
+									<input class="btn_borwse_image"  type="file" id="photo" name="photo" onchange="loadImage()">
+			    				</div>
+			    			</div>
+		    			</div>
+		    		</div>
+	    		</div>
+	    		<div class="card-box">
+	    			<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+						<input class="button_success" type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('GO_EDIT');?>" id="save_close" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 	
+	    			</div>
+	    		</div>
+	  	 </div>
+	</div>
+</form>
+<script>
+dojo.require("dojo.data.ItemFileWriteStore");  
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.NumberTextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.form.Textarea");
+function loadImage(){
+	 var output = document.getElementById('image_view');
+  output.src = URL.createObjectURL(event.target.files[0]);
+}
+
+function CheckPenalty(){
+	penalty_type = dijit.byId("penalty_type").get('value');
+	if(penalty_type==1){
+		penalty_value = dijit.byId("penalty_value").get('value');
+		if(penalty_value>100){
+			alert("<?php echo $tr->translate('áž”áŸ’ážšáž¶áž€áŸ‹áž–áž·áž“áŸ�áž™áž‡áž¶áž—áž¶áž‚ážšáž™áž˜áž·áž“áž¢áž¶áž…áž›áž¾ážŸáž–áž¸ áŸ¡áŸ áŸ %áž¡áž¾áž™');?>");
+			dijit.byId('penalty_value').attr('value',100);
+			return false;
+		}
+	}
+}
+</script>

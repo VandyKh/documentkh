@@ -1,0 +1,19 @@
+				<?php 
+		            $key = new Application_Model_DbTable_DbKeycode();
+		            $datasetting =$key->getKeyCodeMiniInv(TRUE);
+		            $logo = $this->baseUrl()."/images/photo/logo/Logo.png";
+		            if (!empty($datasetting['logo'])){
+		            	if (file_exists(PUBLIC_PATH."/images/photo/logo/".$datasetting['logo'])){
+		            		$logo = $this->baseUrl()."/images/photo/logo/".$datasetting['logo'];
+		            	}
+		            }
+		            
+		            ?>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12 logo-content">
+						<div class="logo text-center">
+							<img class="logo-detail" src="<?php echo $logo;?>" />
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>

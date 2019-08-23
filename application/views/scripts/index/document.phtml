@@ -24,6 +24,7 @@ echo $this->headTitle($tr->translate("HOME"));
 											<th class="text-center">ពីនាយកដ្ខាន</th>
 											<th class="text-center">មតិយោបល់</th>
 											<th class="text-center">កាលបរិច្ឆេទ</th>
+											<th class="text-center">ប្រភេទស្កេន</th>
 											<th class="text-center">ស្ថានភាព</th>
 										</tr>
 									</thead>
@@ -34,7 +35,8 @@ echo $this->headTitle($tr->translate("HOME"));
 											<td><?php echo $rs['department_admin_no']?></td>
 											<td><?php echo $rs['fromDept']?></td>
 											<td class="text-center"><?php echo $rs['comment']?></td>
-											<td class="text-center"><?php echo date("d-m-Y",strtotime($rs['scanDate']))?></td>
+											<td class="text-center"><?php echo date("d-m-Y H:i:s",strtotime($rs['scanDate']))?></td>
+											<td class="text-center"><?php echo $rs['scanType']?></td>
 											<td class="text-center"><?php echo $rs['proccess']?></td>
 											
 										</tr>

@@ -105,7 +105,7 @@ echo $this->headTitle($tr->translate("SCAN_VIEW"));
 			data: {keyword: keyword},
 			type: "POST",
 			success:function(data){
-				if(data==-1){
+				if(data==0){
 					$( "#messagescan" ).html('<?php echo $tr->translate("EMPTY_DATA_PLEASE_SCAN_AGAIN")?>');
 				}else{
 					var urlview = '<?php echo $this->baseUrl()."/index/view?document=";?>';

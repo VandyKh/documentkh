@@ -27,7 +27,7 @@ echo $this->headTitle($tr->translate("VIEW")."---".$this->row['subject']);
 					<div class="row row-content-document">
 						<div class="col-12 col-sm-12 col-md-12">
 							<?php if (!empty($this->scanRecord)){?>
-							<table class="tb-list-doc" border="1">
+							<table border="1" id="datatable-responsive" style="  border-collapse: collapse; border-color: #ddd;"  class="display nowrap dataTable dtr-inline collapsed" cellspacing="0" width="100%" >
 								<thead>
 									<tr>
 										<th><?php echo $tr->translate("NUM")?></th>
@@ -45,7 +45,7 @@ echo $this->headTitle($tr->translate("VIEW")."---".$this->row['subject']);
 										<td><?php echo $row['department'];?></td>
 										<td><?php echo $row['scanBy'];?></td>
 										<td  class="text-center"><?php echo date("d-mY",strtotime($row['create_date']));?></td>
-										<td><?php echo $row['comment'];?></td>
+										<td style="width: 180px;overflow-wrap: break-word;white-space: normal;" ><?php echo $row['comment'];?></td>
 										<td  class="text-center"><?php echo $row['proccess'];?></td>
 									</tr>
 									<?php }?>

@@ -1,0 +1,103 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate("ENTER_COMMENT"));
+?>
+
+			
+				<div class="main-content-login">
+					<?php 
+						echo $this->render('bloglogo.phtml');
+					?>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12 content-page-title">
+							<h3 class="page-title"><span class="glyphicon glyphicon-folder-open"></span> <span class="sp-title"><?php echo $tr->translate("ENTER_COMMENT")?></span></h3>
+						</div>
+					</div>
+					<div class="row row-head-doc">
+						<div class="col-12 col-sm-3 col-md-3">
+						</div>
+						<div class="col-12 col-sm-6 col-md-6">
+							<ul class="doc-title-list">
+								<li>
+									<span class="title-lb"><?php echo $tr->translate("SUBJECT")?></span> : <?php echo $this->row['subject'];?>
+								</li>
+								<li><span class="title-lb"><?php echo $tr->translate("MINISTRY_ADMIN_NO")?></span> : <?php echo $this->row['ministry_admin_no'];?></li>
+								<li><span class="title-lb"><?php echo $tr->translate("DEPARTMENT_ADMIN_NO")?></span> : <?php echo $this->row['department_admin_no'];?></li>
+								<li><span class="title-lb"><?php echo $tr->translate("DEPARTMENT")?></span> : <?php echo $this->row['fromDept'];?></li>
+							</ul>
+						</div>
+						<div class="col-12 col-sm-3 col-md-3">
+						</div>
+					</div>
+					<div class="row">
+						<div class="content-login comment-content">
+							<div class="row row-control ">
+								<div class="col-12 col-sm-3 col-md-3">
+								</div>
+								<div class="col-12 col-sm-6 col-md-6">
+									<form method="post">
+										<div class="form-group">
+											<label for="comment"><?php echo $tr->translate("COMMENT")?></label>
+											<input class="form-control" type="hidden" id="scan" name="scan" value="<?php echo $this->row['id']?>" />
+											<textarea class="form-control comment" id="comment"  name="comment"  placeholder="<?php echo $tr->translate("COMMENT")?>"><?php echo $this->row['comment']?></textarea>
+										  </div>
+										  <div class="form-group">
+											<label for="exampleInputPassword1"><?php echo $tr->translate("PROCESS")?></label>
+											<select class="form-group js-select2" id="process"  name="process" data-placeholder="<?php echo $tr->translate("PROCESS");?>">
+											  <?php if (!empty($this->opt)) foreach ($this->opt as $rs){?>
+											  <option value="<?php echo $rs['id']?>" <?php if ($rs['id']==$this->row['doc_processing']){ echo 'selected="selected"';}?>><?php echo $rs['name']?></option>
+											  <?php }?>
+											</select>
+										  </div>
+										  <div class="form-group text-center">
+										  	<input class="form-control" type="hidden" id="document" name="document" value="<?php echo $this->row['serial_code']?>" />
+											 <button type="submit" class="btn btn-primary btn-login"><span class="glyphicon glyphicon-floppy-disk"></span> <?php echo $tr->translate("SAVE")?></button>
+										  </div>
+									 </form>
+								</div>
+								<div class="col-12 col-sm-3 col-md-3">
+								</div>
+							</div>
+						</div>
+						<div>
+					</div>
+				</div>
+			</div>
+			<link href="<?php echo $this->baseUrl()."/templates/plugin/select2/";?>css/select2.min.css" rel="stylesheet" />
+<script src="<?php echo $this->baseUrl()."/templates/plugin/"?>select2/js/select2.min.js"></script>	
+<style>
+.select2-container--default .select2-selection--single {
+	height: 45px;
+	border-radius: 0;
+	border: solid 1px #eee;
+}	
+.select2-container--default .select2-selection--single {
+    padding: 6px;
+    height: 47px;
+    font-size: 1.2em;
+    position: relative;
+    border: 1px solid #ebebeb;
+}	
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 45px;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 20px;
+}
+</style>
+
+<script>
+
+$(document).ready(function() {
+	
+	  $(".js-select2").select2({
+	  placeholder: "",
+	  width: '100%'
+	 
+	});
+
+});
+</script>	
+	
+

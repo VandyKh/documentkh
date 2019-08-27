@@ -1,6 +1,6 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("HOME"));
+echo $this->headTitle($tr->translate("DOCUMENT_IN_HAND"));
 ?>
 
 	
@@ -19,13 +19,14 @@ echo $this->headTitle($tr->translate("HOME"));
 								<table border="1" id="datatable-responsive" style="  border-collapse: collapse; border-color: #ddd;"  class="display nowrap dataTable dtr-inline collapsed" cellspacing="0" width="100%" >
 									<thead>
 										<tr>
-											<th class="text-center">ល.រ</th>
-											<th class="text-center">លេខឯកសារ</th>
-											<th class="text-center">ពីនាយកដ្ខាន</th>
-											<th class="text-center">មតិយោបល់</th>
-											<th class="text-center">កាលបរិច្ឆេទ</th>
-											<th class="text-center">ប្រភេទស្កេន</th>
-											<th class="text-center">ស្ថានភាព</th>
+											<th class="text-center"><?php echo $tr->translate("NUM");?></th>
+											<th class="text-center"><?php echo $tr->translate("DEPARTMENT_ADMIN_NO");?></th>
+											<th class="text-center"><?php echo $tr->translate("FROM_DEPARTMENT");?></th>
+											<th class="text-center"><?php echo $tr->translate("COMMENT");?></th>
+											<th class="text-center"><?php echo $tr->translate("SCAN_DATE");?></th>
+											<th class="text-center"><?php echo $tr->translate("SCAN_TYPE");?></th>
+											<th class="text-center"><?php echo $tr->translate("PROCESS");?></th>
+											<th class="text-center"><?php //echo $tr->translate("PROCESS");?></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -34,11 +35,16 @@ echo $this->headTitle($tr->translate("HOME"));
 											<td class="text-center"><?php echo $key+1?></td>
 											<td><?php echo $rs['department_admin_no']?></td>
 											<td><?php echo $rs['fromDept']?></td>
-											<td class="text-center"><?php echo $rs['comment']?></td>
+											<td style="width: 180px;overflow-wrap: break-word;white-space: normal;" ><?php echo $rs['comment']?></td>
 											<td class="text-center"><?php echo date("d-m-Y H:i:s",strtotime($rs['scanDate']))?></td>
 											<td class="text-center"><?php echo $rs['scanType']?></td>
 											<td class="text-center"><?php echo $rs['proccess']?></td>
-											
+											<td class="text-center">
+												<a class="btn btn-primary btn-comment" href="<?php echo $this->baseUrl()."/index/comment?scan=".$rs['scan_id']?>">
+												<span class="glyphicon glyphicon-list-alt"></span>
+												<?php echo $tr->translate("ENTER_COMMENT");?>
+												</a>
+											</td>
 										</tr>
 										<?php }?>
 									</tbody>

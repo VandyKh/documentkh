@@ -24,6 +24,9 @@ $module=$request->getModuleName();
 						<a class="<?php if ($action=="home"){ echo "active";}?>" href="<?php echo $this->baseUrl()."/index/home";?>"><span class="glyphicon glyphicon-qrcode"></span> <span class="sp-menu-title"><?php echo $tr->translate("SCAN_DOCUMENT")?></span></a>
 					</li>
 					<li>
+						<a class="<?php if ($action=="report"){ echo "active";}?>" href="<?php echo $this->baseUrl()."/index/report";?>"><span class="glyphicon glyphicon-folder-open"></span> <span class="sp-menu-title"><?php echo $tr->translate("REPORT")?></span></a>
+					</li>
+					<li>
 						<a class="<?php if ($action=="changepassword"){ echo "active";}?>" href="<?php echo $this->baseUrl()."/index/changepassword";?>"><span class="glyphicon glyphicon-wrench"></span> <span class="sp-menu-title"><?php echo $tr->translate("CHANGE_PASSWORD")?></span></a>
 					</li>
 					<li>

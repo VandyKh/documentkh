@@ -16,6 +16,8 @@ class IndexController extends Zend_Controller_Action
     }
     public function administratorAction()
     {
+    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+    	
     	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
     	$username = $session_user->full_name;
     	$user_id = $session_user->user_id;
@@ -95,8 +97,8 @@ class IndexController extends Zend_Controller_Action
 					Application_Form_FrmMessage::redirectUrl("/home");	
 					exit();
 				}
-			else{					
-					$this->view->msg = 'ឈ្មោះ​អ្នក​ប្រើ​ប្រាស់ និង ពាក្យ​​សំងាត់ មិន​ត្រឺម​ត្រូវ​ទេ ';
+			else{		
+					$this->view->msg = $tr->translate("USER_NAME_PASSORD_WRONG");
 				}
 			}
 			else{				
@@ -302,5 +304,46 @@ class IndexController extends Zend_Controller_Action
     	$db = new Application_Model_DbTable_DbFront();
     	$row = $db->getDocumentInHand();
     	$this->view->row=$row;
+    }
+    public function commentAction()
+    {
+    	
+    	$scan = $this->getRequest()->getParam("scan");
+    	$scan = empty($scan)?0:$scan;
+    	$db = new Application_Model_DbTable_DbFront();
+    	if($this->getRequest()->isPost()){
+    		$_data = $this->getRequest()->getPost();
+    		$db->isertCommentScanDocument($_data);
+    		Application_Form_FrmMessage::Sucessfull('SUCCESS', "/index/home");
+    	}
+    	$row = $db->getScanDocumentyById($scan);
+    	$this->view->row=$row;
+    	if (empty($row)){
+    		Application_Form_FrmMessage::Sucessfull('NO_RECORD', "/index/home");
+    		exit();
+    	}
+    	$dbgb = new Application_Model_DbTable_DbGlobal();
+    	$this->view->opt = $dbgb->getVewOptoinTypeByType(5);
+    }
+    public function reportAction()
+    {
+    	
+    	if($this->getRequest()->isPost()){
+    		$search=$this->getRequest()->getPost();
+    	}else{
+    		$search = array(
+    				'search'=>"",
+    				'document_type'=>0,
+    				'from_dept'=>0,
+    				'start_date'=> date('Y-m-d'),
+    				'end_date'=>date('Y-m-d'));
+    	}
+    	$this->view->search = $search;
+    	$db = new Application_Model_DbTable_DbFront();
+    	$row = $db->getDocumentScanHistory($search);
+    	$this->view->row=$row;
+    	
+    	$dbgb = new Application_Model_DbTable_DbGlobal();
+    	$this->view->opt = $dbgb->getVewOptoinTypeByType(5);
     }
 }

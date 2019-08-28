@@ -116,7 +116,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		$_from_dept->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside','queryExpr'=>'*${0}*',
 				'autoComplete'=>'false',
 		));
-		$_parent_opt = array(0=>$this->tr->translate("SELECT_FROM_DEPARMENT"));
+		$_parent_opt = array(0=>$this->tr->translate("SELECT_FROM_DEPARTMENT"));
 		$dept = $db->getAllDepartment();
 		if (!empty($dept)) foreach ($dept as $ct){
 			$_parent_opt[$ct['id']]=$ct['name'];
@@ -148,7 +148,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		$_scan_type->setMultiOptions($_scan_type_opt);
 		$_scan_type->setValue($request->getParam("scan_type"));
 		
-		$_doc_process_opt = array(-1=>$this->tr->translate("Select Process"));
+		$_doc_process_opt = array(-1=>$this->tr->translate("SELECT_PROCESS"));
 		$_doc_process=  new Zend_Dojo_Form_Element_FilteringSelect('doc_process');
 		$_doc_process->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside'));
 		$_data = $db->getDataFromView(5);

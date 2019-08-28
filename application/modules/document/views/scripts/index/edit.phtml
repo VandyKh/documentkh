@@ -155,7 +155,7 @@
 			id: "from_dept",
 			name: "from_dept",
 			class: "fullside", 		
-			placeHolder:"<?php echo $tr->translate("SELECT_FROM_DEPARMENT")?>",         
+			placeHolder:"<?php echo $tr->translate("SELECT_FROM_DEPARTMENT")?>",         
 			value:"<?php echo $this->row['from_dept']?>",			
 			onChange: function() {  
 				getpopupDepartment();
@@ -319,7 +319,7 @@
 					<td><?php echo $tr->translate("PARENT");?></td>
 					<td>
 						<select class='fullside' id="doc_type_parentid"  name="doc_type_parentid" required="false" dojoType="dijit.form.FilteringSelect"> 
-						 	<option value="0"><?php echo $tr->translate("SELECT_PARENT");?></option>
+						 	<option value="0"><?php echo $tr->translate("SELECT_DOCUMENT_TYP_PARENT");?></option>
 							<?php foreach ($this->doc_type_list as $key => $ust) : ?>
 								<option value="<?php echo $ust['id'];?>"><?php echo $ust['name'];?></option>
 							<?php endforeach;?>																															
@@ -362,7 +362,7 @@
 					<td><?php echo $tr->translate("PARENT");?></td>
 					<td>
 						<select class='fullside' id="department_parent_id"  name="department_parent_id" required="false" dojoType="dijit.form.FilteringSelect"> 
-						 	<option value="0"><?php echo $tr->translate("SELECT_PARENT");?></option>
+						 	<option value="0"><?php echo $tr->translate("SELECT_DEPARTMENT_PARENT");?></option>
 							<?php foreach ($this->department_list as $key => $ust) : ?>
 								<option value="<?php echo $ust['id'];?>"><?php echo $ust['name'];?></option>
 							<?php endforeach;?>																															

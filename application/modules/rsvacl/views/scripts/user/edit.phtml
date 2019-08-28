@@ -152,7 +152,7 @@ ul.opt-school {
 				<tr>
 					<td width="30%"><?php echo $tr->translate("USER_TYPE");?></td>
 					<td width="70%">
-						<input type="text" required="true" name="user_typename" id="user_typename" placeholder="User Type" 
+						<input type="text" required="true" name="user_typename" id="user_typename" placeholder="<?php echo $tr->translate("USER_TYPE");?>" 
 						dojoType="dijit.form.ValidationTextBox" value="<?php echo $this->usertype['user_type'];?>"
 						missingMessage="Invalid User type!" class='fullside'/>
 					</td>
@@ -204,7 +204,7 @@ ul.opt-school {
 					<td><?php echo $tr->translate("PARENT");?></td>
 					<td>
 						<select class='fullside' id="department_parent_id"  name="department_parent_id" required="false" dojoType="dijit.form.FilteringSelect"> 
-						 	<option value="0"><?php echo $tr->translate("SELECT_PARENT");?></option>
+						 	<option value="0"><?php echo $tr->translate("SELECT_DEPARTMENT_PARENT");?></option>
 							<?php foreach ($this->department_list as $key => $ust) : ?>
 								<option value="<?php echo $ust['id'];?>"><?php echo $ust['name'];?></option>
 							<?php endforeach;?>																															
@@ -241,7 +241,7 @@ dojo.ready(function(){
 		name: "user_type",
 		value:'<?php echo $this->user_edit['user_type'];?>',
 		class: "fullside", 		
-		placeHolder:"Select User Type",          
+		placeHolder:"<?php echo $tr->translate("SELECT_USER_TYPE");?>",                 
 		onChange: function() {  
 			getpopupUsertype();
 		}
@@ -254,7 +254,7 @@ dojo.ready(function(){
 		name: "department",
 		value:'<?php echo $this->user_edit['department'];?>',
 		class: "fullside", 		
-		placeHolder:"Select Department",          
+		placeHolder:"<?php echo $tr->translate("SELECT_FROM_DEPARTMENT");?>",             
 		onChange: function() {  
 			getpopupDepartment();
 		}

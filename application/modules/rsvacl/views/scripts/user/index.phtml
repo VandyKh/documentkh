@@ -27,7 +27,7 @@
 			<form name="frmlist_users" action="<?php echo $this->url(array('module'=>'rsvacl','controller'=>'user','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
 				<div class="form-group"> 
 					<div class="col-md-2 col-sm-2 col-xs-12">
-						<input class="fullside" type="text" name="txtsearch" id="txtsearch" placeholder="តាម (នាម​ត្រកូល , នាម​ខ្លួន  និង អ្នក​ប្រើ​ប្រាស់)"  dojoType="dijit.form.TextBox"
+						<input class="fullside" type="text" name="txtsearch" id="txtsearch" placeholder="<?php echo $tr->translate("SEARCH");?>"  dojoType="dijit.form.TextBox"
 							 style="height: 30px;" value='<?php echo $this->txtsearch;?>'/>
 					</div>
 					<div class="col-md-2 col-sm-2 col-xs-12">

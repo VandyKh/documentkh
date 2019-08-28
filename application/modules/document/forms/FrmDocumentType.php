@@ -21,7 +21,7 @@ Class Document_Form_FrmDocumentType extends Zend_Dojo_Form {
 		$_adv_search->setAttribs(array('dojoType'=>$this->text,
 				'onkeyup'=>'this.submit()',
 				'class'=>"fullside",
-				'placeholder'=>$this->tr->translate("SEARCH_ZONE_INFO")
+				'placeholder'=>$this->tr->translate("SEARCH")
 		));
 		$_adv_search->setValue($request->getParam("adv_search"));
 		

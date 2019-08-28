@@ -289,8 +289,8 @@
 					form: dojo.byId("add_document"),
 					handleAs:"json",
 					load: function(data) {
-						//alert(data.qrcode_image);
-						window.location.href = "<?php echo $this->baseUrl()."/document/index"?>";
+						window.open("<?php echo $this->baseUrl().'/report/index/prints/id/';?>"+data, '_blank');
+						window.location.href = "<?php echo $this->baseUrl().'/document/index/'?>";
 					},
 					error: function(err) {
 						HideloadingBlock();

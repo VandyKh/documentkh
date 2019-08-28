@@ -141,7 +141,7 @@ class Document_indexController extends Zend_Controller_Action {
 			$db = new Document_Model_DbTable_DbDocument();
 			$id = $db->addDocument($data);
 			$row = $db->getDocumentyById($id);
-			print_r(Zend_Json::encode($row));
+			print_r(Zend_Json::encode($id));
 			exit();
 		}
 	}

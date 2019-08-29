@@ -22,7 +22,7 @@ class IndexController extends Zend_Controller_Action
     	$username = $session_user->full_name;
     	$user_id = $session_user->user_id;
     	if (!empty($user_id)){
-    		$this->_redirect("/home");
+    		$this->_redirect("/document");
     	}
     	$this->_helper->layout()->disableLayout();
 		$form=new Application_Form_FrmLogin();				
@@ -90,11 +90,7 @@ class IndexController extends Zend_Controller_Action
 							break;
 						}
 					}
-					if(!empty($user_info['staff_id'])){
-						Application_Form_FrmMessage::redirectUrl("/home/index/dashboard");
-						exit();
-					}
-					Application_Form_FrmMessage::redirectUrl("/home");	
+					Application_Form_FrmMessage::redirectUrl("/document");	
 					exit();
 				}
 			else{		

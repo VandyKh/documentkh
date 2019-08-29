@@ -82,5 +82,38 @@ class Other_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
 		}
 		return $cate_tree_array;
 	}	
+	
+	public function getCheckDepartmentInDoc($id){
+		$db = $this->getAdapter();
+		$sql="SELECT s.id FROM `dt_document` AS s WHERE s.from_dept=$id ORDER BY s.id DESC LIMIT 1";
+		return $db->fetchOne($sql);
+	}
+	public function getCheckDepartmentInUser($id){
+		$db = $this->getAdapter();
+		$sql="SELECT s.id FROM `rms_users` AS s WHERE s.department=$id ORDER BY s.id DESC LIMIT 1";
+		return $db->fetchOne($sql);
+	}
+	function deleteDepartment($department_id){
+		$db = $this->getAdapter();
+		$db->beginTransaction();
+		try{
+			$info = $this->getDepartmentById($department_id);
+	
+			$dbgb = new Application_Model_DbTable_DbGlobal();
+			$_datas = array('description'=>"Delete Department ".$info['title']." id = ($department_id) ");
+			$dbgb->addActivityUser($_datas);
+	
+			$where ="id=".$department_id;
+			$this->_name="dt_deptarment";
+			$this->delete($where);
+			$db->commit();
+			return $department_id;
+	
+		}catch (Exception $e){
+			Application_Form_FrmMessage::message("Application Error");
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+			$db->rollBack();
+		}
+	}
 }
 

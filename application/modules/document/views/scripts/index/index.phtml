@@ -3,7 +3,9 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("DOCUMENT"));
 $frm = $this->frm_search;
 $urlEdit = $this->baseUrl()."/document/index/edit/id/";
+$urlDelete = $this->baseUrl()."/document/index/delete/id/";
 $urlPrint = $this->baseUrl()."/report/index/prints/id/";
+
 ?>
 <div class="card pb-10 pt-10 pl-10 pr-10">
 	<div class="card-content collapse show">
@@ -68,12 +70,15 @@ $(function(){
 				url='<?php echo $urlEdit;?>';
 			}else if(key=="print"){
 				url='<?php echo $urlPrint;?>';
+			}else if(key=="delete"){
+				url='<?php echo $urlDelete;?>';
 			}
 			gotoAction();
 		},
 		items: {
 			"edit": {name: "<?php echo $tr->translate("EDIT");?>", icon: "edit", accesskey: "e"},
 			"print": {name: "<?php echo $tr->translate("PRINT");?>", icon: "fa-print"},
+			"delete": {name: "<?php echo $tr->translate("DELETE");?>", icon: "fa-trash"},
 		}
 	});
 });

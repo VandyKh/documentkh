@@ -44,6 +44,7 @@ class RsvAcl_UserController extends Zend_Controller_Action
         	'id'=>$rs['id'],
         	'name'=>$rs['name'],
         	'user_name'=>$rs['user_name'],
+        	'department'=>$rs['department'],
         	'user_type'=>$rs['users_type'],
         	'status'=>$rs['status']);
         }
@@ -55,11 +56,11 @@ class RsvAcl_UserController extends Zend_Controller_Action
         else{
         	$result = Application_Model_DbTable_DbGlobal::getResultWarning();
         }
-        $collumns = array("LASTNAME_FIRSTNAME","USER_NAME","USER_TYPE","STATUS");
+        $collumns = array("LASTNAME_FIRSTNAME","USER_NAME","DEPARTMENT","USER_TYPE","STATUS");
         $link=array(
         		'module'=>'rsvacl','controller'=>'user','action'=>'edit',
         );
-        $this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('user_name'=>$link,'name'=>$link));
+        $this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array('user_name'=>$link,'name'=>$link));
     }
 	public function addAction()
 	{
@@ -147,7 +148,7 @@ class RsvAcl_UserController extends Zend_Controller_Action
     				$session_user->unlock();
     				$session_user->pwd=$pass_data['new_password'];
     				$session_user->lock();
-    				Application_Form_FrmMessage::Sucessfull('ការផ្លាស់ប្តូរដោយជោគជ័យ', self::REDIRECT_URL);
+    				Application_Form_FrmMessage::Sucessfull('CHANGE_SUCCESS', self::REDIRECT_URL);
     			} catch (Exception $e) {
     				Application_Form_FrmMessage::message('ការផ្លាស់ប្តូរត្រូវបរាជ័យ');
     				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -158,13 +159,86 @@ class RsvAcl_UserController extends Zend_Controller_Action
     		}
     	}
     }
-    function checkTitleAction(){// by vandy check tilte property
+    function checkTitleAction(){// by check user name 
     	if($this->getRequest()->isPost()){
     		$data = $this->getRequest()->getPost();
     		$db = new Application_Model_DbTable_DbUsers();
     		$return=$db->CheckTitle($data);
     		print_r(Zend_Json::encode($return));
     		exit();
+    	}
+    }
+    
+    function deleteAction(){
+    
+    	// Check Session Expire
+    	$dbgb = new Application_Model_DbTable_DbGlobal();
+    	$checkses = $dbgb->checkSessionExpire();
+    	if (empty($checkses)){
+    		$dbgb->reloadPageExpireSession();
+    		exit();
+    	}
+    
+    	$id = $this->getRequest()->getParam("id");
+    	$id = empty($id)?0:$id;
+    	$db = new Application_Model_DbTable_DbUsers();
+    	$row = $db->getCheckUserInScan($id);
+    	if (!empty($row)){
+    		Application_Form_FrmMessage::Sucessfull("UNAVAILABLE_TO_DELETE_THIS_RECORD","/rsvacl/user");
+    		exit();
+    	}else if ($id==1){
+    		Application_Form_FrmMessage::Sucessfull("UNAVAILABLE_TO_DELETE_THIS_RECORD","/rsvacl/user");
+    		exit();
+    	}
+    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+    	$delete_sms=$tr->translate('CONFIRM_DELETE');
+    	echo "<script language='javascript'>
+    	var txt;
+    	var r = confirm('$delete_sms');
+    	if (r == true) {";
+    	echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/rsvacl/user/deleterecord/id/".$id."'";
+    	echo"}";
+    	echo"else {";
+    	echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/rsvacl/user'";
+    	echo"}
+    	</script>";
+    }
+    function deleterecordAction(){
+    
+    // Check Session Expire
+    		$dbgb = new Application_Model_DbTable_DbGlobal();
+    		$checkses = $dbgb->checkSessionExpire();
+    		if (empty($checkses)){
+    		$dbgb->reloadPageExpireSession();
+    		exit();
+    	}
+    
+    	$request=Zend_Controller_Front::getInstance()->getRequest();
+    	$action=$request->getActionName();
+    	$controller=$request->getControllerName();
+    	$module=$request->getModuleName();
+    
+    	$id = $this->getRequest()->getParam("id");
+    	$id = empty($id)?0:$id;
+    	if ($id==1){
+    		Application_Form_FrmMessage::Sucessfull("UNAVAILABLE_TO_DELETE_THIS_RECORD","/rsvacl/user");
+    		exit();
+    	}
+    	
+    	$db = new Application_Model_DbTable_DbUsers();
+    	try {
+	    	$rs = $db->getAccessUrl($module,$controller,'delete');
+	    	if(!empty($rs)){
+	    	$db->deleteUser($id);
+	    	Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/rsvacl/user");
+	    	exit();
+	    	}
+	    	Application_Form_FrmMessage::Sucessfull("You no permission to delete","/rsvacl/user");
+	    	exit();
+    	}catch (Exception $e) {
+	    	Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+	    	Application_Form_FrmMessage::message("DELETE_FAIL");
+	    	exit();
     	}
     }
 }

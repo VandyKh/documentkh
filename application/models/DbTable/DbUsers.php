@@ -124,7 +124,8 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 		u.`full_name` AS name,
 		u.`user_name` ,
 		u.`user_type`,
-		(SELECT user_type FROM `rms_acl_user_type` WHERE user_type_id=u.user_type LIMIT 1) aS users_type,
+		(SELECT user_type FROM `rms_acl_user_type` WHERE user_type_id=u.user_type LIMIT 1) AS users_type,
+		(SELECT dp.title FROM `dt_deptarment` AS dp  WHERE dp.id = u.department LIMIT 1) AS department,
 		u.`active` as status
 		FROM `rms_users` AS u
 		
@@ -329,6 +330,34 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 		$db =$this->getAdapter();
 		$sql = "SELECT id FROM `rms_users` WHERE user_name = '".$data['user_name']."' limit 1 ";
 		return $db->fetchRow($sql);
+	}
+	
+	public function getCheckUserInScan($id){
+		$db = $this->getAdapter();
+		$sql="SELECT s.id FROM `dt_scan_document` AS s WHERE s.scan_by=$id ORDER BY s.id DESC LIMIT 1";
+		return $db->fetchOne($sql);
+	}
+	function deleteUser($user_id){
+		$db = $this->getAdapter();
+		$db->beginTransaction();
+		try{
+			$info = $this->getUserEdit($user_id);
+	
+			$dbgb = new Application_Model_DbTable_DbGlobal();
+			$_datas = array('description'=>"Delete User ".$info['user_name']." id = ($user_id) Full Name :".$info['full_name']);
+			$dbgb->addActivityUser($_datas);
+	
+			$where ="id=".$user_id;
+			$this->_name="rms_users";
+			$this->delete($where);
+			$db->commit();
+			return $user_id;
+	
+		}catch (Exception $e){
+			Application_Form_FrmMessage::message("Application Error");
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+			$db->rollBack();
+		}
 	}
 }
 

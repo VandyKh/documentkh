@@ -33,7 +33,7 @@ class RsvAcl_UserTypeController extends Zend_Controller_Action
     		$link=array(
     				'module'=>'rsvacl','controller'=>'usertype','action'=>'edit',
     		);
-    		$this->view->list=$list->getCheckList(0,$collumns, $result,array('user_type'=>$link,'title'=>$link));
+    		$this->view->list=$list->getCheckList(10,$collumns, $result,array('user_type'=>$link,'title'=>$link));
     		
     		if (empty($result)){
     			$result = array('err'=>1, 'msg'=>'មិនទាន់មានទិន្នន័យនៅឡើយ!');
@@ -119,6 +119,80 @@ class RsvAcl_UserTypeController extends Zend_Controller_Action
     		print_r(Zend_Json::encode($u_typeid));
     		exit();
     	}
+    }
+    
+    function deleteAction(){
+    
+    	// Check Session Expire
+    	$dbgb = new Application_Model_DbTable_DbGlobal();
+    	$checkses = $dbgb->checkSessionExpire();
+    	if (empty($checkses)){
+    		$dbgb->reloadPageExpireSession();
+    		exit();
+    	}
+    
+    	$id = $this->getRequest()->getParam("id");
+    	$id = empty($id)?0:$id;
+    	$db = new RsvAcl_Model_DbTable_DbUserType();
+    	$row = $db->getCheckUserTypeInUser($id);
+    	if (!empty($row)){
+    		Application_Form_FrmMessage::Sucessfull("UNAVAILABLE_TO_DELETE_THIS_RECORD","/rsvacl/usertype");
+    		exit();
+    	}else if ($id==1){
+    		Application_Form_FrmMessage::Sucessfull("UNAVAILABLE_TO_DELETE_THIS_RECORD","/rsvacl/usertype");
+    		exit();
+    	}
+    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+    	$delete_sms=$tr->translate('CONFIRM_DELETE');
+    	echo "<script language='javascript'>
+    		var txt;
+    		var r = confirm('$delete_sms');
+    			if (r == true) {";
+    		echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/rsvacl/usertype/deleterecord/id/".$id."'";
+    	echo"}";
+    	echo"else {";
+    			echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/rsvacl/usertype'";
+    			echo"}
+    			</script>";
+    }
+    function deleterecordAction(){
+    
+	    // Check Session Expire
+	    $dbgb = new Application_Model_DbTable_DbGlobal();
+	    	$checkses = $dbgb->checkSessionExpire();
+	    	if (empty($checkses)){
+	    	$dbgb->reloadPageExpireSession();
+	    exit();
+	    }
+	    
+	    $request=Zend_Controller_Front::getInstance()->getRequest();
+	    $action=$request->getActionName();
+	    $controller=$request->getControllerName();
+	    $module=$request->getModuleName();
+	    
+	    $id = $this->getRequest()->getParam("id");
+	    $id = empty($id)?0:$id;
+	    if ($id==1){
+	    Application_Form_FrmMessage::Sucessfull("UNAVAILABLE_TO_DELETE_THIS_RECORD","/rsvacl/usertype");
+	    exit();
+	    }
+	     
+	    $db = new RsvAcl_Model_DbTable_DbUserType();
+	    try {
+	    	$dbacc = new Application_Model_DbTable_DbUsers();
+		    $rs = $dbacc->getAccessUrl($module,$controller,'delete');
+		    if(!empty($rs)){
+			    $db->deleteUserType($id);
+			    Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/rsvacl/usertype");
+		    	exit();
+		    }
+		    Application_Form_FrmMessage::Sucessfull("You no permission to delete","/rsvacl/usertype");
+		    exit();
+	    }catch (Exception $e) {
+		    Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+		    Application_Form_FrmMessage::message("DELETE_FAIL");
+		    exit();
+	   }
     }
 
 }

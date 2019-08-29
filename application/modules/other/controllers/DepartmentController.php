@@ -111,5 +111,75 @@ class Other_DepartmentController extends Zend_Controller_Action {
    		exit();
    	}
    }
+   
+   function deleteAction(){
+   	 
+	   	// Check Session Expire
+	   	$dbgb = new Application_Model_DbTable_DbGlobal();
+	   	$checkses = $dbgb->checkSessionExpire();
+	   	if (empty($checkses)){
+	   		$dbgb->reloadPageExpireSession();
+	   		exit();
+	   	}
+	   	 
+	   	$id = $this->getRequest()->getParam("id");
+	   	$id = empty($id)?0:$id;
+	   	$db = new Other_Model_DbTable_DbDepartment();
+	   	$row = $db->getCheckDepartmentInDoc($id);
+	   	$rowInuser = $db->getCheckDepartmentInUser($id);
+	   	if (!empty($row)){
+	   		Application_Form_FrmMessage::Sucessfull("UNAVAILABLE_TO_DELETE_THIS_RECORD","/other/department");
+	   		exit();
+	   	}else if (!empty($rowInuser)){
+	   		Application_Form_FrmMessage::Sucessfull("UNAVAILABLE_TO_DELETE_THIS_RECORD","/other/department");
+	   		exit();
+	   	}
+	   	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	   	$delete_sms=$tr->translate('CONFIRM_DELETE');
+	   	echo "<script language='javascript'>
+	   	var txt;
+	   	var r = confirm('$delete_sms');
+	   	if (r == true) {";
+   			echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/other/department/deleterecord/id/".$id."'";
+   			echo"}";
+   			echo"else {";
+   			echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/other/department'";
+   			echo"}
+   		</script>";
+   }
+   function deleterecordAction(){
+    
+	   // Check Session Expire
+	   $dbgb = new Application_Model_DbTable_DbGlobal();
+	   $checkses = $dbgb->checkSessionExpire();
+	   if (empty($checkses)){
+	   $dbgb->reloadPageExpireSession();
+	   exit();
+	   }
+	   
+	   $request=Zend_Controller_Front::getInstance()->getRequest();
+	   $action=$request->getActionName();
+	   $controller=$request->getControllerName();
+	   $module=$request->getModuleName();
+	    
+	   $id = $this->getRequest()->getParam("id");
+	   $id = empty($id)?0:$id;
+	   $db = new Other_Model_DbTable_DbDepartment();
+	   try {
+		   $dbacc = new Application_Model_DbTable_DbUsers();
+		   $rs = $dbacc->getAccessUrl($module,$controller,'delete');
+		   if(!empty($rs)){
+			   $db->deleteDepartment($id);
+			   Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/other/department");
+			   exit();
+		   }
+		   	Application_Form_FrmMessage::Sucessfull("You no permission to delete","/other/department");
+		   	exit();
+	   }catch (Exception $e) {
+	  	 Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+	   		Application_Form_FrmMessage::message("DELETE_FAIL");
+	   		exit();
+	   }
+   }
 }
 

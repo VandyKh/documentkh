@@ -112,5 +112,71 @@ class Document_DocumenttypeController extends Zend_Controller_Action {
    		exit();
    	}
    }
+   
+   function deleteAction(){
+   
+	   	// Check Session Expire
+	   	$dbgb = new Application_Model_DbTable_DbGlobal();
+	   	$checkses = $dbgb->checkSessionExpire();
+	   	if (empty($checkses)){
+	   		$dbgb->reloadPageExpireSession();
+	   		exit();
+	   	}
+   
+	   	$id = $this->getRequest()->getParam("id");
+	   	$id = empty($id)?0:$id;
+	   	$db = new Document_Model_DbTable_DbDocumentType();
+	   	$row = $db->getCheckDocumentTypeInDoc($id);
+	   	if (!empty($row)){
+	   		Application_Form_FrmMessage::Sucessfull("UNAVAILABLE_TO_DELETE_THIS_RECORD","/document/documenttype");
+	   		exit();
+	   	}
+	   	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	   	$delete_sms=$tr->translate('CONFIRM_DELETE');
+	   	echo "<script language='javascript'>
+	   	var txt;
+	   	var r = confirm('$delete_sms');
+	   	if (r == true) {";
+	   		echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/document/documenttype/deleterecord/id/".$id."'";
+	   	echo"}";
+	   	echo"else {";
+	   		echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/document/documenttype'";
+	   	echo"}
+	   	</script>";
+   }
+   function deleterecordAction(){
+   
+	   // Check Session Expire
+	   		$dbgb = new Application_Model_DbTable_DbGlobal();
+	   		$checkses = $dbgb->checkSessionExpire();
+	   		if (empty($checkses)){
+	   		$dbgb->reloadPageExpireSession();
+	   		exit();
+	   	}
+	   
+	   	$request=Zend_Controller_Front::getInstance()->getRequest();
+	   	$action=$request->getActionName();
+	   	$controller=$request->getControllerName();
+	   	$module=$request->getModuleName();
+   
+	   	$id = $this->getRequest()->getParam("id");
+	   	$id = empty($id)?0:$id;
+	   	$db = new Document_Model_DbTable_DbDocumentType();
+	   	try {
+		   	$dbacc = new Application_Model_DbTable_DbUsers();
+		   	$rs = $dbacc->getAccessUrl($module,$controller,'delete');
+		   	if(!empty($rs)){
+		   	$db->deleteDocumentType($id);
+		   	Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/document/documenttype");
+		   	exit();
+		   	}
+		   	Application_Form_FrmMessage::Sucessfull("You no permission to delete","/document/documenttype");
+		   	exit();
+	   	}catch (Exception $e) {
+		   	Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+		   	Application_Form_FrmMessage::message("DELETE_FAIL");
+		   	exit();
+	   	}
+   	}
 }
 

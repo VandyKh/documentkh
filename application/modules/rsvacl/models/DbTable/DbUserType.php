@@ -134,5 +134,38 @@ class RsvAcl_Model_DbTable_DbUserType extends Zend_Db_Table_Abstract
 		 parent_id,note, status FROM `rms_acl_user_type` u ";
 		return $db->fetchAll($sql);
 	}
+	
+	function getUserTypeInfor($id){
+		$db = $this->getAdapter();
+		$sql="SELECT s.* FROM `rms_acl_user_type` AS s WHERE s.user_type_id=$id ORDER BY s.user_type_id DESC LIMIT 1";
+		return $db->fetchRow($sql);
+	}
+	public function getCheckUserTypeInUser($id){
+		$db = $this->getAdapter();
+		$sql="SELECT s.id FROM `rms_users` AS s WHERE s.user_type=$id ORDER BY s.id DESC LIMIT 1";
+		return $db->fetchOne($sql);
+	}
+	function deleteUserType($usertype_id){
+		$db = $this->getAdapter();
+		$db->beginTransaction();
+		try{
+			$info = $this->getUserTypeInfor($usertype_id);
+	
+			$dbgb = new Application_Model_DbTable_DbGlobal();
+			$_datas = array('description'=>"Delete User Type ".$info['user_type']." id = ($usertype_id)");
+			$dbgb->addActivityUser($_datas);
+	
+			$where ="user_type_id=".$usertype_id;
+			$this->_name="rms_acl_user_type";
+			$this->delete($where);
+			$db->commit();
+			return $usertype_id;
+	
+		}catch (Exception $e){
+			Application_Form_FrmMessage::message("Application Error");
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+			$db->rollBack();
+		}
+	}
 }
 

@@ -145,5 +145,34 @@ class Document_Model_DbTable_DbDocument extends Zend_Db_Table_Abstract
 			$this->update($_arr, $where);
 		}
 	}
+	
+	
+	public function getCheckDocumentInScan($id){
+		$db = $this->getAdapter();
+		$sql="SELECT s.id FROM `dt_scan_document` AS s WHERE s.document_id=$id ORDER BY s.id DESC LIMIT 1";
+		return $db->fetchOne($sql);
+	}
+	function deleteDocument($document_id){
+		$db = $this->getAdapter();
+		$db->beginTransaction();
+		try{
+			$info = $this->getDocumentyById($document_id);
+				
+			$dbgb = new Application_Model_DbTable_DbGlobal();
+			$_datas = array('description'=>"Delete Document ".$info['subject']." id = ($document_id) Departmen Admin No: ".$info['department_admin_no']);
+			$dbgb->addActivityUser($_datas);
+		
+			$where ="id=".$document_id;
+			$this->_name="dt_document";
+			$this->delete($where);
+			$db->commit();
+			return $document_id;
+		
+		}catch (Exception $e){
+			Application_Form_FrmMessage::message("Application Error");
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+			$db->rollBack();
+		}
+	}
 }
 

@@ -80,6 +80,35 @@ class Document_Model_DbTable_DbDocumentType extends Zend_Db_Table_Abstract
 			}
 		}
 		return $cate_tree_array;
-	}	
+	}
+
+	public function getCheckDocumentTypeInDoc($id){
+		$db = $this->getAdapter();
+		$sql="SELECT s.id FROM `dt_document` AS s WHERE s.document_type=$id ORDER BY s.id DESC LIMIT 1";
+		return $db->fetchOne($sql);
+	}
+	function deleteDocumentType($document_id){
+		$db = $this->getAdapter();
+		$db->beginTransaction();
+		try{
+			$info = $this->getCategoryById($document_id);
+	
+			$dbgb = new Application_Model_DbTable_DbGlobal();
+			$_datas = array('description'=>"Delete Document Type ".$info['title']." id = ($document_id) ");
+			$dbgb->addActivityUser($_datas);
+	
+			$where ="id=".$document_id;
+			$this->_name="dt_document_type";
+			$this->delete($where);
+			$db->commit();
+			return $document_id;
+	
+		}catch (Exception $e){
+			Application_Form_FrmMessage::message("Application Error");
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+			$db->rollBack();
+		}
+	}
+	
 }
 

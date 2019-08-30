@@ -791,6 +791,71 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		}
   		return $idetity;
   	}
+  	
+  	function getNotificationPendingScan($limit =null){
+  		$db = $this->getAdapter();
+  		
+  		$key = new Application_Model_DbTable_DbKeycode();
+  		$datasetting =$key->getKeyCodeMiniInv(TRUE);
+  		$amount_day = empty($datasetting['amount_alertday'])?1:$datasetting['amount_alertday'];
+  		$end_date= date('Y-m-d');
+  		if ($amount_day>1){
+  			$end_date= date('Y-m-d',strtotime("-$amount_day day"));
+  		}
+  		$sql="
+  		
+  		SELECT d.*,
+			sd.id AS scan_id,
+			sd.comment,
+			sd.create_date AS scanDate,
+			(SELECT dt.title FROM `dt_document_type` AS dt WHERE dt.id = d.document_type LIMIT 1) documentType,
+			(SELECT dt.code FROM `dt_document_type` AS dt WHERE dt.id = d.document_type LIMIT 1) documentTypeCode,
+			(SELECT dp.title FROM `dt_deptarment` AS dp WHERE dp.id = d.from_dept LIMIT 1) fromDept,
+			(SELECT dp.code FROM `dt_deptarment` AS dp WHERE dp.id = d.from_dept LIMIT 1) fromDeptCode,
+			
+			(SELECT dp.title FROM `dt_deptarment` AS dp WHERE dp.id = sd.department_scanner LIMIT 1) scanDept,
+			(SELECT dp.code FROM `dt_deptarment` AS dp WHERE dp.id = sd.department_scanner LIMIT 1) scanDeptCode,
+
+			(SELECT v.name_kh FROM `ln_view` AS v WHERE v.key_code = sd.scan_type AND v.type = 4 LIMIT 1) AS scanType,
+			(SELECT v.name_kh FROM `ln_view` AS v WHERE v.key_code = d.status AND v.type = 5 LIMIT 1) AS proccess,
+			(SELECT u.full_name FROM rms_users AS u WHERE u.id=sd.scan_by LIMIT 1) AS scanner
+		 FROM `dt_scan_document` AS sd,
+			`dt_document` AS d
+		WHERE d.id = sd.document_id 
+			AND sd.is_active = 1
+			AND d.status IN (1,2)
+  		";
+  		
+  		$to_date = (empty($end_date))? '1': " sd.create_date <= '".$end_date." 23:59:59'";
+  		$sql.= " AND ".$to_date;
+  		if (!empty($limit)){
+  			$sql.=" LIMIT $limit";
+  		}
+  		return $db->fetchAll($sql);
+  	}
+  	
+  	function getCountAllNotificationPendingScan(){
+  		$db = $this->getAdapter();
+  		$key = new Application_Model_DbTable_DbKeycode();
+  		$datasetting =$key->getKeyCodeMiniInv(TRUE);
+  		$amount_day = empty($datasetting['amount_alertday'])?1:$datasetting['amount_alertday'];
+  		$end_date= date('Y-m-d');
+  		if ($amount_day>1){
+  			$end_date= date('Y-m-d',strtotime("-$amount_day day"));
+  		}
+  		$sql="
+  		SELECT COUNT(d.id) as countss  		
+  		FROM `dt_scan_document` AS sd,
+  		`dt_document` AS d
+  		WHERE d.id = sd.document_id
+  		AND sd.is_active = 1
+  		AND d.status IN (1,2)
+  		";
+  		$to_date = (empty($end_date))? '1': " sd.create_date <= '".$end_date." 23:59:59'";
+  		$sql.= " AND ".$to_date;
+  		$sql.=" LIMIT 1";
+  		return $db->fetchOne($sql);
+  	}
   
 }
 ?>

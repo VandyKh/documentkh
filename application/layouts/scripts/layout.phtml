@@ -47,6 +47,8 @@
 		$session_user->lock();
 	}
 	
+	$notification = $vdgb->getNotificationPendingScan(15);
+	$count = $vdgb->getCountAllNotificationPendingScan();
 	?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -167,24 +169,6 @@
 				                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
 				              </div>
               				  <ul class="nav navbar-nav navbar-right">
-			              	      <li>
-			              	      	 <?php  foreach ($alllang as $ll){ ?>
-              							<?php if ($currentlang == $ll['id']){?>
-			              		     <a title="Khmer" href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-				              			<img src="<?php echo $this->baseUrl()."/images/".$ll['iconImage']?>"> 
-				              		</a>
-				              		<?php break;}?>
-              						<?php }?>
-	              		              	<ul class="dropdown-menu dropdown-usermenu pull-right lang-ul">
-	              		              	<?php  foreach ($alllang as $ll){ ?>
-		              			            <li class="lang">
-				                 				<a href="javascript:;" onclick="changeLange(<?php echo $ll['id'];?>);"> 
-			                 						<img src="<?php echo $this->baseUrl()."/images/".$ll['iconImage']?>">
-			                 					</a>
-	                 						</li>
-	                 					 <?php }?>
-	                	                </ul>
-              					</li>
 			                	<li class="">
 				                  	<a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                        	<img src="<?php echo $this->baseUrl()?>/images/user.png" alt="">
@@ -197,6 +181,35 @@
 					                    </li>
 				                  </ul>
 				                </li>
+				                
+				                <li role="presentation" class="dropdown">
+				                  <a title="<?php echo $tr->translate("PENDING_SCAN_LIST");?>" href="javascript:;"  class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="true">
+				                    <i class="fa fa-newspaper-o"></i>
+				                    <span id="countNews" class="badge bg-green"><?php if ($count>0){ echo $count;}?></span>
+				                  </a>
+				                  <ul id="menu1" class="dropdown-menu list-unstyled " role="menu">
+					                 <li class=" event title">
+					                  	<h4><a style="color: #fff;" href="<?php echo $this->url(array('module'=>'report','controller'=>'index','action'=>'rpt-validateagreement'), null, true);?>"><?php echo $tr->translate("PENDING_SCAN_LIST");?></a></h4>
+					                  </li>
+					               <?php if(!empty($notification)){
+				                  		foreach($notification as $key=> $result){
+				                          	$end_dat=date("Y-m-d");
+				                          	$scandate = date("Y-m-d",strtotime($result['scanDate']));
+											$total_day=strtotime($end_dat)-strtotime($scandate);
+											$total_late_day=$total_day/(60*60*24);
+			                          	?>
+			                          <li class=" event" title="<?php echo $result['subject'];?>">
+				                            <div class="media-body">
+				                              <small><i class="fa fa-file-text"></i> <?php echo $result['department_admin_no'];?></small><br />
+				                              <span class="title" ><i class="fa fa-user"></i> <?php echo $result['scanner'];?> (<?php echo $result['scanType'];?>)</span>
+				                              <p style="white-space: nowrap;"><strong><i class="fa fa-university"></i> <?php echo $result['scanDept'];?></strong>  </p>
+				                              <p> <small> <i class="fa fa-calendar"></i> <?php echo $tr->translate("AMOUNT_DAY")." : ".$total_late_day." ".$tr->translate("DAYS"); //echo " <br />".date("Y-m-d H:i:s",strtotime($result['scanDate'])); ?></small>
+				                              </p>
+				                            </div>
+			                          </li>
+			                          <?php } }?>
+				                  </ul>
+				              </li>
              				</ul>
             			</nav>
           			</div>

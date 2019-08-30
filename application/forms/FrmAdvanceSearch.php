@@ -158,6 +158,16 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		$_doc_process->setMultiOptions($_doc_process_opt);
 		$_doc_process->setValue($request->getParam("doc_process"));
 		
+		$_period_opt = array(""=>$this->tr->translate("PLEASE_SELECT"));
+		$_period_option=  new Zend_Dojo_Form_Element_FilteringSelect('period_option');
+		$_period_option->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside'));
+		$_data = $db->getAllPeriodOptionSearch();
+		if (!empty($_data)) foreach ($_data as $ct){
+			$_period_opt[$ct['id']]=$ct['name'];
+		}
+		$_period_option->setMultiOptions($_period_opt);
+		$_period_option->setValue($request->getParam("period_option"));
+		
 		$this->addElements(array(
 				$from_date,
 				$to_date,
@@ -170,7 +180,8 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 				$_from_dept,
 				$_department,
 				$_scan_type,
-				$_doc_process
+				$_doc_process,
+				$_period_option
 			));
 		return $this;
 	}

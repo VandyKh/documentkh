@@ -28,22 +28,32 @@ dojo.require("dijit.form.DateTextBox");
 	    <div class="card-box">
 	   		 <form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
 					<div class="form-group"> 
-						<div class="col-md-2 col-sm-2 col-xs-12">
+						<div class="col-md-3 col-sm-3 col-xs-12">
 							<?php echo $frm->getElement("adv_search");?>
 						</div>
-						<div class="col-md-2 col-sm-2 col-xs-12">
+						<div class="col-md-3 col-sm-3 col-xs-12">
 							<?php echo $frm->getElement("from_dept");?>
 						</div>
-						<div class="col-md-2 col-sm-2 col-xs-12">
+						<div class="col-md-3 col-sm-3 col-xs-12">
 							<?php echo $frm->getElement("document_type");?>
 						</div>
-						<div class="col-md-2 col-sm-2 col-xs-12">
+						
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<?php echo $frm->getElement('period_option');?>
+						</div>
+						
+					</div>
+					<div class="form-group"> 
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<?php echo $frm->getElement('doc_process');?>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-12">
 							<?php echo $frm->getElement('start_date');?>
 						</div>
-						<div class="col-md-2 col-sm-2 col-xs-12">
+						<div class="col-md-3 col-sm-3 col-xs-12">
 							<?php echo $frm->getElement('end_date');?>
 						</div>
-						<div class="col-md-2 col-sm-2 col-xs-12">
+						<div class="col-md-3 col-sm-3 col-xs-12">
 							<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
 						</div>
 					</div>
@@ -87,6 +97,7 @@ dojo.require("dijit.form.DateTextBox");
 				border-collapse:collapse;
 				border:1px solid #000; 
 				font-size:13px;
+				white-space: nowrap;
 			}
 			table.content-data thead tr.style {
 			   line-height: 25px; font-size:12px !important; padding:1px 0px; white-space: nowrap;height: 22px; 
@@ -140,35 +151,47 @@ dojo.require("dijit.form.DateTextBox");
 								<td colspan="17" style="border:1px solid #fff;border-bottom:1px solid #000;"></td>
 							</tr>
 							<tr bgcolor="#c1d0f3" class="style" align="center" >
-								<td><?php echo $tr->translate("NUM");?></td>
+								<td rowspan="2"><?php echo $tr->translate("NUM");?></td>
+								<td colspan="7"><?php echo $tr->translate("DOCUMENT_INFO");?></td>
+								<td rowspan="2"><?php echo $tr->translate("NOTE");?></td>
+								<td rowspan="2"><?php echo $tr->translate("CREATE_DATE");?></td>
+								<td rowspan="2"><?php echo $tr->translate("BY");?></td>
+							</tr>
+							<tr bgcolor="#c1d0f3" class="style" align="center" >
 								<td><?php echo $tr->translate("SUBJECT");?></td>
 								<td><?php echo $tr->translate("MINISTRY_ADMIN_NO");?></td>
 								<td><?php echo $tr->translate("DEPARTMENT_ADMIN_NO");?></td>
 								<td><?php echo $tr->translate("FROM_DEPARTMENT");?></td>
 								<td><?php echo $tr->translate("DOCUMENT_TYPE");?></td>
 								<td><?php echo $tr->translate("ISSUE_DATE");?></td>
-								<td><?php echo $tr->translate("NOTE");?></td>
-								<td><?php echo $tr->translate("CREATE_DATE");?></td>
-								<td><?php echo $tr->translate("MODIFY_DATE");?></td>
-								<td><?php echo $tr->translate("USER");?></td>
 								<td><?php echo $tr->translate("STATUS");?></td>
+								
 							</tr>
 						</thead>
 						<tbody>
 		              	<?php if (!empty($this->rs)) foreach ($this->rs as $key => $rs){?>
 		              		<tr class="data-list context-menu-one" oncontextmenu="setrowdata(<?php echo $rs['id'];?>);return false;" > 
 		              			<td align="center"><?php echo $key+1;?></td>
-		              			<td align="center" ><?php echo $rs['subject']?></td>
+		              			<td align="center" >
+		              				<span style=" line-height: 18px; white-space: normal !important; display:block; width: 150px ;padding: 1px;overflow-wrap: break-word;">
+		              				<?php echo $rs['subject']?>
+		              				</span>
+		              			</td>
 		              			<td align="center" ><?php echo $rs['ministry_admin_no']?></td>
 		              			<td align="center" ><?php echo $rs['department_admin_no']?></td>
 		              			<td align="center" ><?php echo $rs['from_department']?></td>
 		              			<td align="center" ><?php echo $rs['doc_type']?></td>
-		              			<td ><?php echo $rs['issue_date']?></td>
-		              			<td ><?php echo $rs['note']?></td>
-		              			<td ><?php echo $rs['create_date']?></td>
-		              			<td ><?php echo $rs['modify_date']?></td>
-		              			<td ><?php echo $rs['user_name']?></td>
+		              			<td ><?php echo date("Y-m-d",strtotime($rs['issue_date']))?></td>
 		              			<td ><?php echo $rs['status_label']?></td>
+		              			
+		              			<td >
+		              				<span style=" line-height: 18px; white-space: normal !important; display:block; width: 100px ;padding: 1px;overflow-wrap: break-word;">
+		              				<?php echo $rs['note']?>
+		              				</span>
+		              			</td>
+		              			<td align="center"><?php echo date("Y-m-d",strtotime($rs['create_date']));?></td>
+		              			<td align="center"><?php echo $rs['user_name']?></td>
+		              			
 		              		</tr>
 		              	<?php }?>
 						</tbody>

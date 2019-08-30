@@ -269,9 +269,9 @@ class IndexController extends Zend_Controller_Action
     		if (!empty($check)){
 	    		$row = $dbdoc->getDocumentyByQr($document);
 	    		$arr = array('document_id'=>$row['id'],'scan_type'=>$scantype,'doc_processing'=>$row['status']);
-// 	    		if ($scantype==1){
+	    		if ($scantype==1 || $scantype==3){
 	    			$dbdoc->isertScanDocument($arr);
-// 	    		}
+	    		}
 	    		$return =1;
     		}else{
     			$return =0;

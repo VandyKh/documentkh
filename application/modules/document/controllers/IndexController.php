@@ -15,15 +15,16 @@ class Document_indexController extends Zend_Controller_Action {
 			}else{
 				$search = array(
 					'adv_search' 	=> '',
-					'status' 		=> -1,
+					'doc_process' 		=> -1,
 					'from_dept' 	=> 0,
 					'document_type' => 0,
+					'period_option'=>'',
 					'start_date'	=> date('Y-m-d'),
 					'end_date'		=> date('Y-m-d'));
 			}
 			$rs_rows= $db->getAllDocument($search);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("SUBJECT","MINISTRY_ADMIN_NO","DEPARTMENT_ADMIN_NO","FROM_DEPARTMENT","DOCUMENT_TYPE","ISSUE_DATE","NOTE","DATE","BY_USER","STATUS");
+			$collumns = array("SUBJECT","MINISTRY_ADMIN_NO","DEPARTMENT_ADMIN_NO","FROM_DEPARTMENT","DOCUMENT_TYPE","ISSUE_DATE","STATUS","DATE","BY_USER");
 			$link=array(
 					'module'=>'document','controller'=>'index','action'=>'edit',);
 			$link1=array(

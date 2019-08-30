@@ -258,14 +258,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $db->fetchAll($sql.$where);
    }
-   public static function getCurrencyType($curr_type){
-   	$curr_option = array(
-   			1=>'ážšáŸ€áž›',
-   			2=>'ážŠáž»áž›áŸ’áž›áž¶'
-   			);
-   	return $curr_option[$curr_type];
-   	
-   }
+   
    public function getAllSituation($id = null){
    	$_status = array(
    			1=>$this->tr->translate("Single"),
@@ -558,114 +551,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	return $cate_tree_array;
   }
-  function getAllService($addNew=null){
-  	$db = $this->getAdapter();
-  	$currentLang = $this->currentlang();
-  	$column = "title";
-  	if ($currentLang==1){
-  		$column = "title";
-  	}
-  	$sql="SELECT id,$column AS name FROM crm_service WHERE title!='' AND status =1 ";
-  	$sql.=" ORDER BY id ASC ";
-  	
-  	$row=  $db->fetchAll($sql);
-  	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-  	if (!empty($addNew)){
-  		$addNewArr = Array ( -1 => Array (  'id' => -1 ,'name' => $tr->translate('ADD_NEW') ) );
-  		$row = array_merge( $addNewArr , $row);
-  	}
-  	return $row;
-  }
-  function getAllProduct($addNew=null){
-  	$db = $this->getAdapter();
-  	$currentLang = $this->currentlang();
-  	$column = "title";
-  	if ($currentLang==1){
-  		$column = "title";
-  	}
-  	$sql="SELECT id,$column AS name FROM crm_product WHERE title!='' AND status =1 ";
-  	$sql.=" ORDER BY id ASC ";
-  	
-  	$row=  $db->fetchAll($sql);
-  	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-  	if (!empty($addNew)){
-  		$addNewArr = Array ( -1 => Array (  'id' => -1 ,'name' => $tr->translate('ADD_NEW') ) );
-  		$row = array_merge( $addNewArr , $row);
-  	}
-  	return $row;
-  }
   
-  function getAllStandard($addNew=null){
-  	$db = $this->getAdapter();
-  	$currentLang = $this->currentlang();
-  	$column = "title";
-  	if ($currentLang==1){
-  		$column = "title";
-  	}
-  	$sql="SELECT id,$column AS name FROM crm_standard WHERE title!='' AND status =1 ";
-  	$sql.=" ORDER BY id ASC ";
-  	
-  	$row=  $db->fetchAll($sql);
-  	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-  	if (!empty($addNew)){
-  		$addNewArr = Array ( -1 => Array (  'id' => -1 ,'name' => $tr->translate('ADD_NEW') ) );
-  		$row = array_merge( $addNewArr , $row);
-  	}
-  	return $row;
-  	
-  }
-  function getAllMadeBy($addNew=null){
-  	$db = $this->getAdapter();
-  	$currentLang = $this->currentlang();
-  	$column = "title";
-  	if ($currentLang==1){
-  		$column = "title";
-  	}
-  	$sql="SELECT id,$column AS name FROM crm_made_by WHERE title!='' AND status =1 ";
-  	$sql.=" ORDER BY id ASC ";
-  	
-  	$row=  $db->fetchAll($sql);
-  	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-  	if (!empty($addNew)){
-  		$addNewArr = Array ( -1 => Array (  'id' => -1 ,'name' => $tr->translate('ADD_NEW') ) );
-  		$row = array_merge( $addNewArr , $row);
-  	}
-  	return $row;
-  }
-  
-  function getAllStreet($addNew=null){
-  	$db = $this->getAdapter();
-  	$currentLang = $this->currentlang();
-  	$sql="SELECT id,CONCAT(COALESCE(str_no,''),'-',COALESCE(str_title,'')) AS name FROM crm_street WHERE status =1 ";
-  	$sql.=" ORDER BY id ASC ";
-  	$row=  $db->fetchAll($sql);
-  	
-  	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-  	if (!empty($addNew)){
-  		$addNewArr = Array ( -1 => Array (  'id' => -1 ,'name' => $tr->translate('ADD_NEW') ) );
-  		$row = array_merge( $addNewArr , $row);
-  	}
-  	return $row;
-  }
-  
-  function getAllZone($addNew=null){
-  	$db = $this->getAdapter();
-  	$currentLang = $this->currentlang();
-  	$column = "title";
-  	if ($currentLang==1){
-  		$column = "title";
-  	}
-  	$sql="SELECT id,$column AS name FROM crm_zone WHERE title!='' AND status =1 ";
-  	$sql.=" ORDER BY id ASC ";
-  	$row=  $db->fetchAll($sql);
-  	
-  	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-  	if (!empty($addNew)){
-  		$addNewArr = Array ( -1 => Array (  'id' => -1 ,'name' => $tr->translate('ADD_NEW') ) );
-  		$row = array_merge( $addNewArr , $row);
-  	}
-  	return $row;
-  }
   
   //////
   function getAllDocumentType($current_id=null,$parent = 0, $spacing = '', $cate_tree_array = ''){
@@ -790,6 +676,22 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   			$idetity = $this->getChildDocType($va['id'],$idetity);
   		}
   		return $idetity;
+  	}
+  	
+  	function getAllPeriodOptionSearch($addNew=null){
+  		$db = $this->getAdapter();
+  		
+  		$sql="SELECT DISTINCT v.value AS id,
+			v.name_kh AS `name`  FROM `ln_view` AS v WHERE v.type=3
+			GROUP BY v.value ORDER BY v.value ASC ";
+  		 
+  		$row=  $db->fetchAll($sql);
+  		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+  		if (!empty($addNew)){
+  			$addNewArr = Array ( -1 => Array (  'id' => -1 ,'name' => $tr->translate('ADD_NEW') ) );
+  			$row = array_merge( $addNewArr , $row);
+  		}
+  		return $row;
   	}
   	
   	function getNotificationPendingScan($limit =null){

@@ -58,6 +58,9 @@ dojo.require("dijit.form.DateTextBox");
 							<?php echo $frm->getElement('end_date');?>
 						</div>
 						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement('period_option');?>
+						</div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
 							<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
 						</div>
 					</div>
@@ -101,6 +104,7 @@ dojo.require("dijit.form.DateTextBox");
 				border-collapse:collapse;
 				border:1px solid #000; 
 				font-size:13px;
+				white-space: nowrap;
 			}
 			table.content-data thead tr.style {
 			   line-height: 25px; font-size:12px !important; padding:1px 0px; white-space: nowrap;height: 22px; 
@@ -154,33 +158,45 @@ dojo.require("dijit.form.DateTextBox");
 								<td colspan="17" style="border:1px solid #fff;border-bottom:1px solid #000;"></td>
 							</tr>
 							<tr bgcolor="#c1d0f3" class="style" align="center" >
-								<td><?php echo $tr->translate("NUM");?></td>
+								<td rowspan="2"><?php echo $tr->translate("NUM");?></td>
+								<td colspan="3"><?php echo $tr->translate("DOCUMENT_INFO");?></td>
+								<td colspan="6"><?php echo $tr->translate("SCAN_INFO");?></td>
+							</tr>
+							<tr bgcolor="#c1d0f3" class="style" align="center" >
+								
 								<td><?php echo $tr->translate("SUBJECT");?></td>
 								<td><?php echo $tr->translate("DOCUMENT_TYPE");?></td>
 								<td><?php echo $tr->translate("FROM_DEPARTMENT");?></td>
+								
 								<td><?php echo $tr->translate("SCAN_BY");?></td>
 								<td><?php echo $tr->translate("SCAN_DEPARTMENT");?></td>
 								<td><?php echo $tr->translate("SCAN_TYPE");?></td>
 								<td><?php echo $tr->translate("PROCCESS");?></td>
 								<td><?php echo $tr->translate("COMMENT");?></td>
-								<td><?php echo $tr->translate("CREATE_DATE");?></td>
-								<td><?php echo $tr->translate("MODIFY_DATE");?></td>
+								<td><?php echo $tr->translate("SCAN_DATE");?></td>
 							</tr>
 						</thead>
 						<tbody>
 		              	<?php if (!empty($this->rs)) foreach ($this->rs as $key => $rs){?>
 		              		<tr class="data-list "  > 
 		              			<td align="center"><?php echo $key+1;?></td>
-		              			<td align="center" ><?php echo $rs['subject']?></td>
+		              			<td align="left" >
+		              				<span style=" line-height: 18px; white-space: normal !important; display:block; width: 150px ;padding: 1px;overflow-wrap: break-word;">
+		              				<?php echo $rs['subject']?>
+		              				</span>
+		              			</td>
 		              			<td align="center" ><?php echo $rs['doc_type']?></td>
 		              			<td align="center" ><?php echo $rs['from_department']?></td>
 		              			<td align="center" ><?php echo $rs['scan_by']?></td>
 		              			<td align="center" ><?php echo $rs['department_scanner']?></td>
 		              			<td ><?php echo $rs['scan_type']?></td>
 		              			<td ><?php echo $rs['doc_processing']?></td>
-								<td ><?php echo $rs['comment']?></td>
-		              			<td ><?php echo $rs['create_date']?></td>
-		              			<td ><?php echo $rs['modify_date']?></td>
+								<td >
+									<span style=" line-height: 18px; white-space: normal !important; display:block; width: 150px ;padding: 1px;overflow-wrap: break-word;">
+									<?php echo $rs['comment']?>
+									</span>
+								</td>
+		              			<td ><?php echo date("Y-m-d H:i:s",strtotime($rs['create_date']))?></td>
 		              		</tr>
 		              	<?php }?>
 						</tbody>

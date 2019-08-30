@@ -16,7 +16,7 @@ class Report_Model_DbTable_DbReport extends Zend_Db_Table_Abstract
 						(select title from dt_document_type where dt_document_type.id = d.document_type limit 1) as doc_type,
 						(select title from dt_deptarment where dt_deptarment.id = d.from_dept limit 1) as from_department,
 						(SELECT full_name FROM rms_users WHERE id=d.user_id LIMIT 1 ) AS user_name,
-						(SELECT $label FROM `ln_view` WHERE TYPE =1 AND d.status=key_code LIMIT 1) AS status_label
+						(SELECT v.$label FROM `ln_view` AS v WHERE v.type =5 AND d.status=v.key_code LIMIT 1) AS status_label
 					from 
 						dt_document as d
 					where	
@@ -53,6 +53,18 @@ class Report_Model_DbTable_DbReport extends Zend_Db_Table_Abstract
 					$where.=" AND d.from_dept=".$search['from_dept'];
 				}
 			}
+			
+			if($search['doc_process']>-1){
+				$where.= " AND d.status = ".$search['doc_process'];
+			}
+			
+			if(!empty($search['period_option'])){
+				$period = $search['period_option'];
+				$from_date =" d.create_date >= '".date("Y-m-d",strtotime("-$period day"))." 00:00:00'" ;
+				$to_date   = " d.create_date <= '".date("Y-m-d")." 23:59:59'";
+				$where .= " AND ".$from_date." AND ".$to_date;
+			}
+			
 			return $db->fetchAll($sql.$where);
 		}catch (Exception $e){
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -122,6 +134,14 @@ class Report_Model_DbTable_DbReport extends Zend_Db_Table_Abstract
 			if($search['doc_process']>-1){
 				$where.=" AND sd.doc_processing= ".$search['doc_process'];
 			}
+			
+			if(!empty($search['period_option'])){
+				$period = $search['period_option'];
+				$from_date =" sd.create_date >= '".date("Y-m-d",strtotime("-$period day"))." 00:00:00'" ;
+				$to_date   = " sd.create_date <= '".date("Y-m-d")." 23:59:59'";
+				$where .= " AND ".$from_date." AND ".$to_date;
+			}
+			
 			$dbgb = new Application_Model_DbTable_DbGlobal();
 			$where.=$dbgb->getAccessPermission("sd.department_scanner");
 			

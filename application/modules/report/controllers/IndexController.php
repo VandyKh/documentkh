@@ -19,7 +19,8 @@ class Report_indexController extends Zend_Controller_Action {
 				'document_type'	=> 0,
 				'from_dept'		=> 0,
 				'start_date'	=> date('Y-m-d'),
-				'end_date'		=> date('Y-m-d')
+				'end_date'		=> date('Y-m-d'),
+				'doc_process'	=> '-1',
 			);
 		}
 		$this->view->search = $search;

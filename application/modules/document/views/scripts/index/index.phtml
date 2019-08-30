@@ -31,7 +31,7 @@ $urlPrint = $this->baseUrl()."/report/index/prints/id/";
 						<?php echo $frm->getElement('document_type');?>
 					</div>
 					<div class="col-md-3 col-sm-3 col-xs-12">
-						<?php echo $frm->getElement('status');?>
+						<?php echo $frm->getElement('doc_process');?>
 					</div>
 				</div>
 				<div class="form-group">
@@ -41,7 +41,9 @@ $urlPrint = $this->baseUrl()."/report/index/prints/id/";
 					<div class="col-md-3 col-sm-3 col-xs-12">
 						<?php echo $frm->getElement('end_date');?>
 					</div>
-					
+					<div class="col-md-3 col-sm-3 col-xs-12">
+						<?php echo $frm->getElement('period_option');?>
+					</div>
 					<div class="col-md-3 col-sm-3 col-xs-12">
 						<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
 					</div>

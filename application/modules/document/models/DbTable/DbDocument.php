@@ -19,17 +19,18 @@ class Document_Model_DbTable_DbDocument extends Zend_Db_Table_Abstract
 			    	(select title from dt_deptarment as d where d.id = from_dept) as from_dept,
 			    	(select title from dt_document_type as dt where dt.id = document_type) as document_type,
 			    	issue_date,
-			    	note,
+			    	(SELECT v.name_kh FROM `ln_view` AS v WHERE v.type =5 AND status=v.key_code LIMIT 1) AS status,
 			    	create_date,
 			    	(SELECT full_name FROM rms_users WHERE id=user_id LIMIT 1) As user_name
+			    	
     		";
     	$dbp = new Application_Model_DbTable_DbGlobal();
-    	$sql.=$dbp->caseStatusShowImage("status");
+//     	$sql.=$dbp->caseStatusShowImage("status");
     	$sql.=" FROM $this->_name";
     	
     	$where = " WHERE subject!=''  ";
-    	if($search['status']>-1){
-    		$where.= " AND status = ".$search['status'];
+    	if($search['doc_process']>-1){
+    		$where.= " AND status = ".$search['doc_process'];
     	}
     	if($search['from_dept']>0){
     		$where.= " AND from_dept = ".$search['from_dept'];
@@ -41,7 +42,6 @@ class Document_Model_DbTable_DbDocument extends Zend_Db_Table_Abstract
     	$from_date =(empty($search['start_date']))? '1': " create_date >= '".$search['start_date']." 00:00:00'";
     	$to_date   = (empty($search['end_date']))? '1': " create_date <= '".$search['end_date']." 23:59:59'";
     	$where .= " AND ".$from_date." AND ".$to_date;
-    	
     	if(!empty($search['adv_search'])){
     		$s_where = array();
     		$searches = addslashes(trim($search['adv_search']));
@@ -49,6 +49,12 @@ class Document_Model_DbTable_DbDocument extends Zend_Db_Table_Abstract
     		$s_where[] = " ministry_admin_no LIKE '%{$searches}%'";
     		$s_where[] = " department_admin_no LIKE '%{$searches}%'";
     		$where.=' AND ('.implode(' OR ',$s_where).')';
+    	}
+    	if(!empty($search['period_option'])){
+    		$period = $search['period_option'];
+    		$from_date =" create_date >= '".date("Y-m-d",strtotime("-$period day"))." 00:00:00'" ;
+    		$to_date   = " create_date <= '".date("Y-m-d")." 23:59:59'";
+    		$where .= " AND ".$from_date." AND ".$to_date;
     	}
     	$order = " ORDER BY id DESC";
     	return $db->fetchAll($sql.$where.$order);

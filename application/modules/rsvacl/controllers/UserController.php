@@ -56,7 +56,7 @@ class RsvAcl_UserController extends Zend_Controller_Action
         else{
         	$result = Application_Model_DbTable_DbGlobal::getResultWarning();
         }
-        $collumns = array("LASTNAME_FIRSTNAME","USER_NAME","DEPARTMENT","USER_TYPE","STATUS");
+        $collumns = array("LASTNAME_FIRSTNAME","PHONE_EMAIL","DEPARTMENT","USER_TYPE","STATUS");
         $link=array(
         		'module'=>'rsvacl','controller'=>'user','action'=>'edit',
         );

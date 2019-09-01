@@ -158,8 +158,8 @@ dojo.require("dijit.layout.ContentPane");
 	function changeStatus(id, user_type){
 		url = "<?php echo BASE_URL;?>/rsvacl/useraccess/update-status";
 		status = "no";
-		none_src = "<?php echo BASE_URL?>/images/icon/none.png";
-		tick_src = "<?php echo BASE_URL?>/images/icon/tick.png";
+		none_src = "<?php echo BASE_URL?>/public/images/icon/none.png";
+		tick_src = "<?php echo BASE_URL?>/public/images/icon/tick.png";
 
 		if( $("#img_" + id).attr("src") == tick_src){
 			status = "yes";

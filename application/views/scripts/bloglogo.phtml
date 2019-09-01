@@ -1,10 +1,10 @@
 				<?php 
 		            $key = new Application_Model_DbTable_DbKeycode();
 		            $datasetting =$key->getKeyCodeMiniInv(TRUE);
-		            $logo = $this->baseUrl()."/images/photo/logo/Logo.png";
+		            $logo = $this->baseUrl()."/public"."/images/photo/logo/Logo.png";
 		            if (!empty($datasetting['logo'])){
 		            	if (file_exists(PUBLIC_PATH."/images/photo/logo/".$datasetting['logo'])){
-		            		$logo = $this->baseUrl()."/images/photo/logo/".$datasetting['logo'];
+		            		$logo = $this->baseUrl()."/public"."/images/photo/logo/".$datasetting['logo'];
 		            	}
 		            }
 		            

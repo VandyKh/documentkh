@@ -68,13 +68,13 @@ class RsvAcl_UserAccessController extends Zend_Controller_Action
     		if($id == 1){
     			$sql = "select acl.acl_id,acl.label,CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access , acl.status, acl.module, acl.is_menu
     			from rms_acl_acl as acl
-    			WHERE 1 " . $where;
+    			WHERE acl.status=1 " . $where;
     		}
     		else {
     			$sql="SELECT acl.acl_id,acl.label, CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, acl.status, acl.module, acl.is_menu
     			FROM rms_acl_user_access AS ua
     			INNER JOIN rms_acl_user_type AS ut ON (ua.user_type_id = ut.parent_id)
-    			INNER JOIN rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) WHERE ut.user_type_id =".$id . $where;
+    			INNER JOIN rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) WHERE acl.status=1 AND ut.user_type_id =".$id . $where;
     		}
     		$order = " order by acl.menuordering ASC, acl.rank ASC,acl.controller ASC,acl.is_menu DESC ";
     		$acl=$db_acl->getGlobalDb($sql.$order);
@@ -84,28 +84,28 @@ class RsvAcl_UserAccessController extends Zend_Controller_Action
     			$sql_acl = "SELECT acl.acl_id,acl.label, CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, acl.status, acl.status , acl.is_menu
     			FROM rms_acl_user_access AS ua
     			INNER JOIN rms_acl_user_type AS ut ON (ua.user_type_id = ut.user_type_id)
-    			INNER JOIN rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) WHERE ua.user_type_id =".$id . $where;
+    			INNER JOIN rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) WHERE acl.status=1 AND ua.user_type_id =".$id . $where;
     		}else{
     			$sql_acl = "SELECT acl.acl_id,acl.label, CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, acl.status, acl.status , acl.is_menu
     			FROM rms_acl_user_access AS ua
     			INNER JOIN rms_acl_user_type AS ut ON (ua.user_type_id = ut.parent_id)
-    			INNER JOIN rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) WHERE ua.user_type_id =".$id . $where;
+    			INNER JOIN rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) WHERE acl.status=1 AND ua.user_type_id =".$id . $where;
     		}
     		 
     		$acl_name = $db_acl->getGlobalDb($sql_acl.$order);
     		$acl_name = (is_null($acl_name))? array(): $acl_name;
     		 
-    		$imgnone='<img src="'.BASE_URL.'/images/icon/none.png"/>';
-    		$imgtick='<img src="'.BASE_URL.'/images/icon/tick.png"/>';
+    		$imgnone='<img src="'.BASE_URL.'/public/images/icon/none.png"/>';
+    		$imgtick='<img src="'.BASE_URL.'/public/images/icon/tick.png"/>';
     		 
     		$rows= array();
     		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
     		foreach($acl as $com){
-    			$img='<img src="'.BASE_URL.'/images/icon/none.png" id="img_'.$com['acl_id'].'" onclick="changeStatus('.$com['acl_id'].','.$id.');" class="pointer"/>';
+    			$img='<img src="'.BASE_URL.'/public/images/icon/none.png" id="img_'.$com['acl_id'].'" onclick="changeStatus('.$com['acl_id'].','.$id.');" class="pointer"/>';
     			$tmp_status = 0;
     			foreach($acl_name as $read){
     				if($read['acl_id']==$com['acl_id']){
-    					$img='<img src="'.BASE_URL.'/images/icon/tick.png" id="img_'.$com['acl_id'].'" onclick="changeStatus('.$com['acl_id'].', '.$id.');" class="pointer"/>';
+    					$img='<img src="'.BASE_URL.'/public/images/icon/tick.png" id="img_'.$com['acl_id'].'" onclick="changeStatus('.$com['acl_id'].', '.$id.');" class="pointer"/>';
     					$tmp_status = 1;
     					break;
     				}

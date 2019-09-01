@@ -135,7 +135,7 @@ class Application_Form_Frmtable
     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
     
     	$copyButton = '&nbsp;<a href="#" class="btn-action" onClick="copyRecord(\''.$url_copy.'\')">'
-    	.'<img alt="" src="'.BASE_URL.'/images/icon/copy.png"><b>'
+    	.'<img alt="" src="'.BASE_URL.'/public/images/icon/copy.png"><b>'
     	.$tr->translate("COPY")
     	.'</b></a>';
     	return $copyButton;
@@ -146,7 +146,7 @@ class Application_Form_Frmtable
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	$addButton = '<a href="'.$url_new.'">'
-					.'<img alt="" src="'.BASE_URL.'/images/icon/add.png">'
+					.'<img alt="" src="'.BASE_URL.'/public/images/icon/add.png">'
 					.$tr->translate("ADD")
 					.'</a>';
 		return $addButton;
@@ -159,7 +159,7 @@ class Application_Form_Frmtable
     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	
     	$deleteButton = '&nbsp;<a href="#" onClick="deleteRecord(\''.$url_delete.'\')">'
-						.'<img alt="" src="'.BASE_URL.'/images/icon/delete-row.png">'
+						.'<img alt="" src="'.BASE_URL.'/public/images/icon/delete-row.png">'
 						.$tr->translate("DELETE")
 						.'</a>';
 		return $deleteButton;

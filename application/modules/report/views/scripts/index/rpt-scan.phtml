@@ -3,7 +3,7 @@
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	
 	$dbGB = new Application_Model_DbTable_DbGlobal();
-	$logo = $this->baseUrl()."/images/logo.jpg";
+	$logo = $this->baseUrl()."/public"."/images/logo.jpg";
 	
 	$key = new Application_Model_DbTable_DbKeycode();
 	$datasetting =$key->getKeyCodeMiniInv(TRUE);
@@ -208,7 +208,7 @@ dojo.require("dijit.form.DateTextBox");
 	</div>
 	
 </div>
-<script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
+<script src="<?php echo $this->baseUrl()."/public";?>/js/help.js"  type="text/javascript"></script>
 <?php 
 $urlProfile = $this->baseUrl()."/report/index/detail-doc/id/";
 ?>

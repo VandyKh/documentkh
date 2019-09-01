@@ -169,7 +169,7 @@ class IndexController extends Zend_Controller_Action
     {
     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	
-    	$session_user=new Zend_Session_Namespace(SYSTEM_SES_FRONT);
+    	$session_user=new Zend_Session_Namespace("authfronts");
     	$username = $session_user->full_name;
     	$user_id = $session_user->user_id;
     	if (!empty($user_id)){
@@ -188,7 +188,7 @@ class IndexController extends Zend_Controller_Action
     			$db_user=new Application_Model_DbTable_DbUsers();
     			if($db_user->userAuthenticate($user_name,$password)){
     					
-    				$session_user=new Zend_Session_Namespace(SYSTEM_SES_FRONT);
+    				$session_user=new Zend_Session_Namespace("authfronts");
     				$user_id=$db_user->getUserID($user_name);
     				$user_info = $db_user->getUserInfo($user_id);
     					
@@ -215,7 +215,7 @@ class IndexController extends Zend_Controller_Action
     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	// action body
     	if ($this->getRequest()->isPost()){
-    		$session_user=new Zend_Session_Namespace(SYSTEM_SES_FRONT);
+    		$session_user=new Zend_Session_Namespace("authfronts");
     		$pass_data=$this->getRequest()->getPost();
     		if ($pass_data['password'] == $session_user->pwd){
     			 
@@ -240,7 +240,7 @@ class IndexController extends Zend_Controller_Action
     {
     		$aut=Zend_Auth::getInstance();
     		$aut->clearIdentity();
-    		$session_user=new Zend_Session_Namespace(SYSTEM_SES_FRONT);
+    		$session_user=new Zend_Session_Namespace("authfronts");
     		$session_user->unsetAll();
     		Application_Form_FrmMessage::redirectUrl("/index/login");
     		exit();
@@ -339,7 +339,14 @@ class IndexController extends Zend_Controller_Action
     	$row = $db->getDocumentScanHistory($search);
     	$this->view->row=$row;
     	
+    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	$dbgb = new Application_Model_DbTable_DbGlobal();
-    	$this->view->opt = $dbgb->getVewOptoinTypeByType(5);
+    	$department = $dbgb->getAllDepartment();
+		array_unshift($department, array('id'=>0,'name'=>$tr->translate('SELECT_FROM_DEPARTMENT')));
+		$this->view->opt_department = $department;
+		
+		$doc_type = $dbgb->getAllDocumentType();
+		array_unshift($doc_type, array('id'=>0,'name'=>$tr->translate('SELECT_DOCUMENT_TYPE')));
+		$this->view->opt_doctype = $doc_type;
     }
 }

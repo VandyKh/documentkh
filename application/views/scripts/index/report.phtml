@@ -23,14 +23,14 @@ $search = $this->search
                             </div>
                             <div class="form-group col-12 col-sm-6 col-md-2">
                             	<select class="form-group js-select2 fullsize" id="document_type"  name="document_type" data-placeholder="<?php echo $tr->translate("SELECT_FROM_DOCUMENTTYPE");?>">
-								  <?php if (!empty($this->opt)) foreach ($this->opt as $rs){?>
+								  <?php if (!empty($this->opt_doctype)) foreach ($this->opt_doctype as $rs){?>
 								  <option value="<?php echo $rs['id']?>" <?php if ($rs['id']==$search['document_type']){ echo 'selected="selected"';}?>><?php echo $rs['name']?></option>
 								  <?php }?>
 								</select>
                             </div>
                             <div class="form-group col-12 col-sm-6 col-md-2">
                             	<select class="form-group js-select2 fullsize" id="from_dept"  name="from_dept" data-placeholder="<?php echo $tr->translate("SELECT_FROM_DEPARTMENT");?>">
-								  <?php if (!empty($this->opt)) foreach ($this->opt as $rs){?>
+								  <?php if (!empty($this->opt_department)) foreach ($this->opt_department as $rs){?>
 								  <option value="<?php echo $rs['id']?>" <?php if ($rs['id']==$search['from_dept']){ echo 'selected="selected"';}?>><?php echo $rs['name']?></option>
 								  <?php }?>
 								</select>
@@ -88,13 +88,13 @@ $search = $this->search
 			</div>
 		
 	
-	<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
-	<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-	<link href="<?php echo $this->baseUrl()."/templates/plugin/select2/";?>css/select2.min.css" rel="stylesheet" />
+	<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+	<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+	<link href="<?php echo $this->baseUrl()."/public"."/templates/plugin/select2/";?>css/select2.min.css" rel="stylesheet" />
 	
-	<script src="<?php echo $this->baseUrl()."/templates/plugin/"?>select2/js/select2.min.js"></script>	
-	<script src="<?php echo $this->baseUrl()."/templates/";?>plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <script src="<?php echo $this->baseUrl()."/templates/";?>plugin/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script src="<?php echo $this->baseUrl()."/public"."/templates/plugin/"?>select2/js/select2.min.js"></script>	
+	<script src="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/bootstrap-daterangepicker/daterangepicker.js"></script>
     <style>
 	.content-search {
 		padding: 10px;
@@ -107,7 +107,7 @@ $search = $this->search
 	}
 	.row.row-form-group div {
 		padding: 0 2px;
-		margin: 0;
+		margin: 2px 0;
 	}
 	span.input-group-addon.b-0 {
 		padding: 0px 10px;
@@ -123,6 +123,7 @@ $search = $this->search
 		font-size: inherit;
 		position: relative;
 		border: 1px solid #ebebeb;
+		font-size: 14px;
 	}	
 	.select2-container--default .select2-selection--single .select2-selection__arrow {
 		height: 40px;
@@ -130,6 +131,11 @@ $search = $this->search
 		top: -2px;
 		right: 1px;
 		width: 20px;
+	}
+	.select2-container--default .select2-results>.select2-results__options {
+	    white-space: nowrap;
+	    width: 100%;
+	    font-size: 14px;
 	}
 </style>
 <script>

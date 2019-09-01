@@ -6,12 +6,11 @@
 	$key = new Application_Model_DbTable_DbKeycode();
 	$datasetting =$key->getKeyCodeMiniInv(TRUE);
 	$branch_title = $datasetting['client_company_name'];
-	
 	$row = $this->row;
 	$qrImages = "";
 	if (!empty($row['qrcode_image'])){
 		if (file_exists(PUBLIC_PATH."/images/photo/qrcode/".$row['qrcode_image'])){
-			$qrImages = $this->baseUrl()."/images/photo/qrcode/".$row['qrcode_image'];
+			$qrImages = $this->baseUrl()."/public"."/images/photo/qrcode/".$row['qrcode_image'];
 		}
 	}
 ?>
@@ -42,7 +41,6 @@ dojo.require("dijit.form.DateTextBox");
 require(["dojo/ready"], function(ready){
 	 ready(function(){
 		 loadingBlock();
-		 
 		 printSave();
 		setTimeout(function () {
 	        HideloadingBlock();

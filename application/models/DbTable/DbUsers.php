@@ -294,16 +294,17 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$sql = "SELECT aa.module, aa.controller, aa.action,aa.label FROM rms_acl_user_access AS ua  INNER JOIN rms_acl_acl AS aa 
 		ON (ua.acl_id=aa.acl_id) WHERE ua.user_type_id='".$user_type_id."' 
-		GROUP BY  aa.module ,aa.controller,aa.action 
 		ORDER BY aa.module ,aa.rank ASC, aa.is_menu ASC ";
 		$rows = $db->fetchAll($sql);
 		return $rows;
 	}
 	public function getArrAclReport($controller_name=null){
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
+		$user_typeid = $session_user->level;
 		$db = $this->getAdapter();
 		$sql = "SELECT aa.label,aa.module, aa.controller, aa.action FROM rms_acl_user_access AS ua  
 			INNER JOIN rms_acl_acl AS aa
-		ON (ua.acl_id=aa.acl_id) WHERE aa.status=1
+		ON (ua.acl_id=aa.acl_id) WHERE aa.status=1 AND ua.user_type_id='".$user_typeid."'
 		AND aa.module='report' ";
 		if($controller_name==null){
 			$sql.=" AND aa.controller!='invest'";
@@ -311,7 +312,7 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 			$sql.=" AND aa.controller='".$controller_name."'";
 		}
 		//
-		$order =" GROUP BY  aa.module ,aa.controller,aa.action
+		$order =" 
 		ORDER BY aa.module ,aa.rank ASC ";
 		$rows = $db->fetchAll($sql.$order);
 		return $rows;

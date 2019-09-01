@@ -4,7 +4,7 @@ class Application_Model_DbTable_DbFront extends Zend_Db_Table_Abstract
 {
 	
 	public function getUserInfo(){
-		$session_user=new Zend_Session_Namespace(SYSTEM_SES_FRONT);
+		$session_user=new Zend_Session_Namespace("authfronts");
 		$userName=$session_user->user_name;
 		$GetUserId= $session_user->user_id;
 		$department = $session_user->department;
@@ -116,7 +116,23 @@ class Application_Model_DbTable_DbFront extends Zend_Db_Table_Abstract
 		
 			$sql .=' AND ('.implode(' OR ',$s_where).')';
 		}
-		
+		$dbgb = new Application_Model_DbTable_DbGlobal();
+		if(!empty($search['document_type'])){
+			$condiction = $dbgb->getChildDocType($search['document_type']);
+			if (!empty($condiction)){
+				$sql.=" AND d.document_type IN ($condiction)";
+			}else{
+				$sql.=" AND d.document_type=".$search['document_type'];
+			}
+		}
+		if(!empty($search['from_dept'])){
+			$condiction = $dbgb->getChildDept($search['from_dept']);
+			if (!empty($condiction)){
+				$sql.=" AND d.from_dept IN ($condiction)";
+			}else{
+				$sql.=" AND d.from_dept=".$search['from_dept'];
+			}
+		}
 		
 		$sql.=" ORDER BY sd.id DESC";
 		$row=$db->fetchAll($sql);

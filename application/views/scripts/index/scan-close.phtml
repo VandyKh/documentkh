@@ -86,13 +86,13 @@ echo $this->headTitle($tr->translate("SCAN_CLOSE"));
 				</div>
 			</div>
 	<script>
-	var urlpart = "<?php echo $this->baseUrl();?>";
+	var urlpart = "<?php echo $this->baseUrl()."/public";?>";
 	var urlgo = '<?php echo $this->url(array('module'=>'','controller' => 'index','action' => 'scanning'));?>';
 	</script>
-	<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/webcodecamjs/css/style.css" rel="stylesheet">
-	<script type="text/javascript" src="<?php echo $this->baseUrl()."/templates/";?>plugin/webcodecamjs/js/qrcodelib.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl()."/templates/";?>plugin/webcodecamjs/js/webcodecamjs.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl()."/templates/";?>plugin/webcodecamjs/js/main.js"></script>
+	<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/webcodecamjs/css/style.css" rel="stylesheet">
+	<script type="text/javascript" src="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/webcodecamjs/js/qrcodelib.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/webcodecamjs/js/webcodecamjs.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/webcodecamjs/js/main.js"></script>
 	<script>
 	$(document).ready(function() {
 		$('#play').click();

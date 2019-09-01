@@ -69,7 +69,7 @@ Class Document_Form_FrmDocument extends Zend_Dojo_Form {
 				'autoComplete'=>'false',
 				'onChange'=>'getpopupDepartment();'
 		));
-		$_parent_opt = array(0=>$this->tr->translate("SELECT_FROM_DEPARMENT"),-1=>$this->tr->translate("ADD_NEW"));
+		$_parent_opt = array(0=>$this->tr->translate("SELECT_FROM_DEPARTMENT"),-1=>$this->tr->translate("ADD_NEW"));
 		$dept = $dbgb->getAllDepartment();
 		if (!empty($dept)) foreach ($dept as $ct){
 			$_parent_opt[$ct['id']]=$ct['name'];

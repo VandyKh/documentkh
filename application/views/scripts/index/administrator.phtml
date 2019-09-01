@@ -1,15 +1,15 @@
 <?php
-	$base_url = Application_Form_FrmMessage::getUrl("/");
+	$base_url = Application_Form_FrmMessage::getUrl("/public/");
 	$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 	$this->headTitle($this->data["system_name"].'--System');
 	echo $this->headTitle();
 	
 	$key = new Application_Model_DbTable_DbKeycode();
 	$datasetting =$key->getKeyCodeMiniInv(TRUE);
-	$logo = $this->baseUrl()."/images/photo/logo/Logo.png";
+	$logo = $this->baseUrl()."/public"."/images/photo/logo/Logo.png";
 	if (!empty($datasetting['logo'])){
 		if (file_exists(PUBLIC_PATH."/images/photo/logo/".$datasetting['logo'])){
-			$logo = $this->baseUrl()."/images/photo/logo/".$datasetting['logo'];
+			$logo = $this->baseUrl()."/public"."/images/photo/logo/".$datasetting['logo'];
 		}
 	}
 ?>
@@ -22,7 +22,7 @@
 	<script src="<?php echo $base_url;?>js/dojo-1.6.1/dojo/dojo.js"  djConfig="isDebug: true,parseOnLoad: true"></script>
 	<script>dojoConfig = {parseOnLoad: true}</script>
 	<link rel="stylesheet" type="text/css" href="<?php echo $base_url;?>js/dojo-1.6.1/dijit/themes/tundra/tundra.css"/>
-	<link rel="shortcut icon" href="<?php echo $this->baseUrl()."/"?>images/icon.ico" type="image/x-icon"/>
+	<link rel="shortcut icon" href="<?php echo $this->baseUrl()."/public"."/"?>images/icon.ico" type="image/x-icon"/>
 	<script>	
 		require(["dojo/parser", "dijit/form/Form", "dijit/form/Button", "dijit/form/ValidationTextBox"]);
 	</script>
@@ -32,16 +32,16 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<link rel="shortcut icon" href="<?php echo $base_url;?>images/icon.ico" type="image/x-icon"/>
-		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/bootstrap-4.3.1/css/bootstrap.min.css" rel="stylesheet">
-		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/bootstrap-4.3.1/css/bootstrap.css" rel="stylesheet">
+		<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/bootstrap-4.3.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/bootstrap-4.3.1/css/bootstrap.css" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Battambang&display=swap" rel="stylesheet">
 		
-		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/datatable/datatables.min.css" rel="stylesheet" type="text/css" />
-		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/datatable/responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/datatable/datatables.min.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/datatable/responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
 		    
-		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/css/style.css" rel="stylesheet">
+		<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/css/style.css" rel="stylesheet">
 		
-		<script src="<?php echo $this->baseUrl()."/templates/";?>plugin/1.11.3/jquery.min.js"></script>
+		<script src="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/1.11.3/jquery.min.js"></script>
 		
 		<style>
 			body {
@@ -122,9 +122,9 @@
 					    					<?php }?>
 										</div>
 										<div class="form-group">
-											<label for="exampleInputEmail1"><?php echo $tr->translate("ACCOUNT_NAME")?></label>
-											<input class="fullside" type="text" required="true" name="txt_user_name" id="txt_user_name" placeholder="<?php echo $tr->translate("ACCOUNT_NAME");?>" 
-									data-dojo-type="dijit/form/ValidationTextBox" missingMessage="<?php echo $tr->translate("PLEASE_ENTER_ACCOUNT_NAME");?>! " style="width: 100%;"/>
+											<label for="exampleInputEmail1"><?php echo $tr->translate("PHONE_EMAIL")?></label>
+											<input class="fullside" type="text" required="true" name="txt_user_name" id="txt_user_name" placeholder="<?php echo $tr->translate("PHONE_EMAIL");?>" 
+									data-dojo-type="dijit/form/ValidationTextBox" missingMessage="<?php echo $tr->translate("PLEASE_ENTER_PHONE_EMAIL");?>! " style="width: 100%;"/>
 										</div>
 										<div class="form-group">
 											<label for="exampleInputPassword1"><?php echo $tr->translate("PASSWORD")?></label>

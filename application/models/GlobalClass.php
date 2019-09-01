@@ -36,11 +36,11 @@ public function getOptonsHtmlTranslate($sql, $display, $value){
    }   
    public function getImgAttachStatus($rows,$base_url, $case=''){
 		if($rows){			
-			$imgattach='<img src="'.$base_url.'/images/icon/attachment.png"/>';
-			$imgnone='<img src="'.$base_url.'/images/icon/no-attachment.png"/>';
+			$imgattach='<img src="'.$base_url.'/public/images/icon/attachment.png"/>';
+			$imgnone='<img src="'.$base_url.'/public/images/icon/no-attachment.png"/>';
 			if($case !== ''){
-				$imgattach='<img src="'.$base_url.'/images/icon/attachment.png"/>';
-				$imgnone='<img src="'.$base_url.'/images/icon/no-attachment.png"/>';
+				$imgattach='<img src="'.$base_url.'/public/images/icon/attachment.png"/>';
+				$imgnone='<img src="'.$base_url.'/public/images/icon/no-attachment.png"/>';
 			}
 			 
 			foreach ($rows as $i =>$row){
@@ -65,7 +65,7 @@ public function getOptonsHtmlTranslate($sql, $display, $value){
 	public static function getImgDelete($rows,$url_delete,$base_url){
 		foreach($rows as $key=>$row){
 			$url = $url_delete.$row["id"];
-			$row['delete'] = '<a href="'.$url.'"><img src="'.BASE_URL.'/images/icon/cross.png"/></a>';
+			$row['delete'] = '<a href="'.$url.'"><img src="'.BASE_URL.'/public/images/icon/cross.png"/></a>';
 			$rows[$key] = $row;
 		}
 		return $rows;
@@ -176,8 +176,8 @@ public function getOptonsHtmlTranslate($sql, $display, $value){
 		
 		public function getImgActive($rows,$base_url, $case='',$degree=null,$display=null){
 			if($rows){
-				$imgnone='<img src="'.$base_url.'/images/icon/cross.png"/>';
-				$imgtick='<img src="'.$base_url.'/images/icon/apply2.png"/>';
+				$imgnone='<img src="'.$base_url.'/public/images/icon/cross.png"/>';
+				$imgtick='<img src="'.$base_url.'/public/images/icon/apply2.png"/>';
 		
 				foreach ($rows as $i =>$row){
 					if($degree!=null){

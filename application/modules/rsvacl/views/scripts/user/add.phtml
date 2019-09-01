@@ -3,7 +3,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $this->headTitle($tr->translate('CREATE_USER'));
 echo $this->headTitle();
 ?>
-<script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
+<script src="<?php echo $this->baseUrl()."/public";?>/js/help.js"  type="text/javascript"></script>
 <script type="text/javascript">	
 	dojo.require("dijit.form.ValidationTextBox");
 	dojo.require('dijit.form.Form');	

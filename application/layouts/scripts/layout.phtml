@@ -1,10 +1,6 @@
 <?php 
-	header('Cache-Control: no cache'); //no cache
-	session_cache_limiter('private_no_expire'); // works
-	//session_start();
-
 	$tr=Application_Form_FrmLanguages::getCurrentlanguage();
-	$base_url = Application_Form_FrmMessage::getUrl("/");
+	$base_url = Application_Form_FrmMessage::getUrl("/public/");
 	$request=Zend_Controller_Front::getInstance()->getRequest();
 	$action=$request->getActionName();
 	
@@ -61,7 +57,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<link rel="stylesheet" type="text/css" href="<?php echo $base_url;?>js/dojo-1.6.1/dijit/themes/<?php echo $them_style."/".$them_style?>.css" />
-    <script src="<?php echo $this->baseUrl()."/contextMenu/1.11.3/"?>jquery.min.js"></script>
+    <script src="<?php echo $this->baseUrl()."/public"."/contextMenu/1.11.3/"?>jquery.min.js"></script>
 
     <!-- Bootstrap -->
     <link href="<?php echo $base_url;?>admin/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -71,14 +67,14 @@
     <link href="<?php echo $base_url;?>admin/vendors/nprogress/nprogress.css" rel="stylesheet">
     
     <?php if ($module!=="home" AND ( $action=="index" OR $module=='report')){?>
-	<link href="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.contextMenu.css" rel="stylesheet" type="text/css" />
-	<script src="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.contextMenu.js" type="text/javascript"></script>
-	<script src="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.ui.position.min.js" type="text/javascript"></script>
+	<link href="<?php echo $this->baseUrl()."/public"."/contextMenu/"?>jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+	<script src="<?php echo $this->baseUrl()."/public"."/contextMenu/"?>jquery.contextMenu.js" type="text/javascript"></script>
+	<script src="<?php echo $this->baseUrl()."/public"."/contextMenu/"?>jquery.ui.position.min.js" type="text/javascript"></script>
 	
-	<link href="<?php echo $this->baseUrl()."/datatable/"?>datatables.min.css" rel="stylesheet" type="text/css" />
-    <link href="<?php echo $this->baseUrl()."/datatable/"?>responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
-    <script src="<?php echo $this->baseUrl()."/datatable/"?>datatables.min.js" type="text/javascript"></script>
-    <script src="<?php echo $this->baseUrl()."/datatable/"?>dataTables.responsive.min.js" type="text/javascript"></script>
+	<link href="<?php echo $this->baseUrl()."/public"."/datatable/"?>datatables.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl()."/public"."/datatable/"?>responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <script src="<?php echo $this->baseUrl()."/public"."/datatable/"?>datatables.min.js" type="text/javascript"></script>
+    <script src="<?php echo $this->baseUrl()."/public"."/datatable/"?>dataTables.responsive.min.js" type="text/javascript"></script>
     <script>
     $(document).ready(function() {
         $('#datatable-responsive').DataTable( {
@@ -104,7 +100,7 @@
 		    height: 28px;
 		}
 		.five-startreceipt{
-			background-image: url('<?php echo $this->baseUrl()."/images/fivestar-receipt.png";?>');background-size: 100%;
+			background-image: url('<?php echo $this->baseUrl()."/public"."/images/fivestar-receipt.png";?>');background-size: 100%;
 		}
 		div.reportblog {
     		overflow-x: auto;
@@ -128,7 +124,7 @@
       </script>
 	<?php }?>	 
 	<link rel="shortcut icon" href="<?php echo $base_url;?>images/icon.ico" type="image/x-icon"/>
-	<link href="<?php echo $this->baseUrl()."/datatable/bootstrap-custome.css"?>" media="screen" rel="stylesheet" type="text/css"> 
+	<link href="<?php echo $this->baseUrl()."/public"."/datatable/bootstrap-custome.css"?>" media="screen" rel="stylesheet" type="text/css"> 
 </head>
 <body class="nav-md soria footer_fixed ">
 	<div class="container body">
@@ -139,10 +135,10 @@
 		            <?php 
 		            $key = new Application_Model_DbTable_DbKeycode();
 		            $datasetting =$key->getKeyCodeMiniInv(TRUE);
-		            $logo = $this->baseUrl()."/images/photo/logo/Logo.png";
+		            $logo = $this->baseUrl()."/public"."/images/photo/logo/Logo.png";
 		            if (!empty($datasetting['logo'])){
 		            	if (file_exists(PUBLIC_PATH."/images/photo/logo/".$datasetting['logo'])){
-		            		$logo = $this->baseUrl()."/images/photo/logo/".$datasetting['logo'];
+		            		$logo = $this->baseUrl()."/public"."/images/photo/logo/".$datasetting['logo'];
 		            	}
 		            }
 		            
@@ -163,7 +159,7 @@
               				  <ul class="nav navbar-nav navbar-right">
 			                	<li class="">
 				                  	<a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                       	<img src="<?php echo $this->baseUrl()?>/images/user.png" alt="">
+                                       	<img src="<?php echo $this->baseUrl()."/public"?>/images/user.png" alt="">
 				                    <?php echo $username;?> <span class=" fa fa-angle-down"></span>
 					                 </a>
 				                  <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -265,7 +261,6 @@
 							<?php if($module!='home') {?>
 							<section class="inputmask">
 								<div class="row">
-							    	<div class="col-sm-12">
 							    	<?php }?>
 							<?php 
 								$db = new Application_Model_DbTable_DbUsers();
@@ -278,7 +273,6 @@
 		            			}
             				 ?>
             				 <?php if($module!='home') {?>
-			            			 </div>
 			            		</div>
 			            	</section>
             			 <?php }?>
@@ -300,7 +294,7 @@
 .overlay {display: none;position: fixed;width: 100%;height: 100%;top: 0px;left: 0px;background: #FCFCFC;z-index: 1001;opacity: .95;}
 .overlay-load {width: 350px;height: 100px;margin: auto;top: 0px;bottom: 0px;position: absolute;left: 0px;right: 0px;
            text-align: center;
-           background: #fff url("<?php echo $this->baseUrl()?>/images/loading.gif") 50% 25%;
+           background: #fff url("<?php echo $this->baseUrl()."/public"?>/images/loading.gif") 50% 25%;
            background-repeat: no-repeat;          
 }
 .overlay-msg{margin-bottom: 10px;bottom: 0px;position: absolute;font-style: italic;color: rgb(19, 19, 19);} 
@@ -323,12 +317,7 @@ function changeLange(lang){
 	});
 }
 </script>
-	<?php if($module=='report'){?>
-	  <!-- export library -->
-		  <script type="text/javascript" src="<?php echo $this->baseUrl();?>/admin/tableExport-master/libs/js-xlsx/xlsx.core.min.js"></script>
-		  <script type="text/javascript" src="<?php echo $this->baseUrl();?>/admin/tableExport-master/libs/FileSaver/FileSaver.min.js"></script>
-		  <script type="text/javascript" src="<?php echo $this->baseUrl();?>/admin/tableExport-master/tableExport.js"></script>
-	<?php } ?>
+	
 <script type="text/javascript">
 $(document).ready(function(){
 	$("body").hover(function() {
@@ -424,15 +413,21 @@ function exportExcel(){
 </script>
 <?php if($action!='index'){?>
 <?php if($module!="report"){?>
-        <script src="<?php echo $this->baseUrl()."/"?>dashboard/js/jquery-2.1.4.min.js"></script>
+        <script src="<?php echo $this->baseUrl()."/public"."/"?>dashboard/js/jquery-2.1.4.min.js"></script>
 <?php }?>
 <?php }?>
-<script src="<?php echo $this->baseUrl()?>/admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="<?php echo $this->baseUrl()?>/admin/build/js/custom.min.js"></script>
+<script src="<?php echo $this->baseUrl()."/public"?>/admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl()."/public"?>/admin/build/js/custom.min.js"></script>
+
+<?php if($module=='report'){?>
+	  <!-- export library -->
+		  <script type="text/javascript" src="<?php echo $this->baseUrl()."/public";?>/admin/tableExport-master/tableExport.js"></script>
+	<?php } ?>
+	
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
 </body>
 <?php }else{
-	$session_user=new Zend_Session_Namespace(SYSTEM_SES_FRONT);
+	$session_user=new Zend_Session_Namespace("authfronts");
 	$username = $session_user->full_name;
 	$user_id = $session_user->user_id;
 	if ($action!="login"){
@@ -453,16 +448,16 @@ function exportExcel(){
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<link rel="shortcut icon" href="<?php echo $base_url;?>images/icon.ico" type="image/x-icon"/>
-		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/bootstrap-4.3.1/css/bootstrap.min.css" rel="stylesheet">
-		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/bootstrap-4.3.1/css/bootstrap.css" rel="stylesheet">
+		<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/bootstrap-4.3.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/bootstrap-4.3.1/css/bootstrap.css" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Battambang&display=swap" rel="stylesheet">
 		
-		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/datatable/datatables.min.css" rel="stylesheet" type="text/css" />
-		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/datatable/responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/datatable/datatables.min.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/datatable/responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
 		    
-		<link href="<?php echo $this->baseUrl()."/templates/";?>plugin/css/style.css" rel="stylesheet">
+		<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/css/style.css" rel="stylesheet">
 		
-		<script src="<?php echo $this->baseUrl()."/templates/";?>plugin/1.11.3/jquery.min.js"></script>
+		<script src="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/1.11.3/jquery.min.js"></script>
 	</head>
 	<body>
 	<div class="container">
@@ -477,10 +472,10 @@ function exportExcel(){
 	
 	
 	
-    <script src="<?php echo $this->baseUrl()."/templates/";?>plugin/datatable/datatables.min.js" type="text/javascript"></script>
-    <script src="<?php echo $this->baseUrl()."/templates/";?>plugin/datatable/dataTables.responsive.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl()."/templates/";?>plugin/bootstrap-4.3.1/js/bootstrap.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl()."/templates/";?>plugin/bootstrap-4.3.1/js/bootstrap.min.js"></script>
+    <script src="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/datatable/datatables.min.js" type="text/javascript"></script>
+    <script src="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/datatable/dataTables.responsive.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/bootstrap-4.3.1/js/bootstrap.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/bootstrap-4.3.1/js/bootstrap.min.js"></script>
 	
 	<script>
 	$(document).ready(function() {

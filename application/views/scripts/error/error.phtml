@@ -1,3 +1,65 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$dbgb = new Application_Model_DbTable_DbGlobal();
+?>
+
+<?php 
+            $key = new Application_Model_DbTable_DbKeycode();
+            $datasetting =$key->getKeyCodeMiniInv(TRUE);
+            $logo = $this->baseUrl()."/public"."/images/photo/logo/Logo.png";
+            if (!empty($datasetting['logo'])){
+            	if (file_exists(PUBLIC_PATH."/images/photo/logo/".$datasetting['logo'])){
+            		$logo = $this->baseUrl()."/public"."/images/photo/logo/".$datasetting['logo'];
+            	}
+            }
+            
+            ?>
+<html>
+<head>
+<link rel="shortcut icon" href="<?php echo $this->baseUrl()."/public";?>/images/icon.ico" type="image/x-icon"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
+<link href="<?php echo $this->baseUrl()."/public/"?>dashboard/notFoundPage/style.css" rel="stylesheet">
+<title><?php echo  $tr->translate("Page Not Found");?></title>
+</head>
+	<body>
+		<div class="wrapper row2">
+		  <div id="container" class="clear">
+		    <section id="fof" class="clear">
+		      <div class="hgroup">
+		       <?php $ise = 1; if ($ise==1){?>
+		        <h1><span><strong><?php echo $dbgb->getNumberInkhmer(4)?></strong></span><span><strong><?php echo $dbgb->getNumberInkhmer(0)?></strong></span><span><strong><?php echo $dbgb->getNumberInkhmer(4)?></strong></span></h1>
+		        <?php }?>
+		      	<img src="<?php echo $logo;?>" style="width: 140px;" />
+		      	
+		        <h2><?php echo  $tr->translate("Sorry");?> ! <span><?php echo $tr->translate("This page is not found in our site");?></span></h2>
+		      </div>
+		      <p><?php echo $tr->translate("Please Try Again");?> !</p>
+		      <p><a href="javascript:history.go(-1)">&laquo; <?php echo $tr->translate("GO_BACK");?></a> / <a href="<?php echo $this->baseUrl()."/";?>"><?php echo $tr->translate("Go Home");?> &raquo;</a></p>
+		    </section>
+		    <div style="display: block;">
+		    	<h1>An error occurred</h1>
+  				<h2 style="padding-top:20px; color: red;"><?php echo $this->message ?></h2>
+			  	<?php if (isset($this->exception)): ?>
+				  <h3>Exception information:</h3>
+				  <p>
+				      <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+				  </p>
+				
+				  <h3>Stack trace:</h3>
+				  <pre><?php echo $this->exception->getTraceAsString() ?>
+				  </pre>
+				
+				  <h3>Request Parameters:</h3>
+				  <pre><?php echo $this->escape(var_export($this->request->getParams(), true)) ?>
+				  </pre>
+				
+				  <?php endif ?>
+		    </div>
+		  </div>
+		</div>
+	</body>
+</html>
+<!-- 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -6,24 +68,24 @@
 </head>
 <body>
   <h1>An error occurred</h1>
-  <h2 style="padding-top:20px; color: red;"><?php echo $this->message ?></h2>
+  <h2 style="padding-top:20px; color: red;"><?php //echo $this->message ?></h2>
 
-  <?php if (isset($this->exception)): ?>
+  <?php //if (isset($this->exception)): ?>
   
   <h3>Exception information:</h3>
   <p>
-      <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+      <b>Message:</b> <?php //echo $this->exception->getMessage() ?>
   </p>
 
   <h3>Stack trace:</h3>
-  <pre><?php echo $this->exception->getTraceAsString() ?>
+  <pre><?php //echo $this->exception->getTraceAsString() ?>
   </pre>
 
   <h3>Request Parameters:</h3>
-  <pre><?php echo $this->escape(var_export($this->request->getParams(), true)) ?>
+  <pre><?php //echo $this->escape(var_export($this->request->getParams(), true)) ?>
   </pre>
 
-  <?php endif ?>
+  <?php //endif ?>
 
 </body>
-</html>
+</html> -->

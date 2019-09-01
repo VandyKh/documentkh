@@ -739,7 +739,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 			`dt_document` AS d
 		WHERE d.id = sd.document_id 
 			AND sd.is_active = 1
-			AND d.status IN (1,2)
+			AND sd.doc_processing IN (1,2)
   		";
   		
   		$to_date = (empty($end_date))? '1': " sd.create_date <= '".$end_date." 23:59:59'";
@@ -765,7 +765,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		`dt_document` AS d
   		WHERE d.id = sd.document_id
   		AND sd.is_active = 1
-  		AND d.status IN (1,2)
+  		AND sd.doc_processing IN (1,2)
   		";
   		$to_date = (empty($end_date))? '1': " sd.create_date <= '".$end_date." 23:59:59'";
   		$sql.= " AND ".$to_date;

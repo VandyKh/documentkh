@@ -69,5 +69,29 @@ class Report_indexController extends Zend_Controller_Action {
 		$frmpopup = new Application_Form_FrmPopupGlobal();
 		$this->view->printsDoc = $frmpopup->printFormDocument();
 	}
-	
+	function rptDocAlertAction(){
+		$db  = new Report_Model_DbTable_DbReport();
+		if($this->getRequest()->isPost()){
+			$search = $this->getRequest()->getPost();
+		}
+		else{
+			$search = array(
+					'adv_search'	=> '',
+					'document_type'	=> 0,
+					'from_dept'		=> 0,
+					'scan_type'		=> 0,
+					'doc_process'	=> -1,
+					'start_date'	=> date('Y-m-d'),
+					'end_date'		=> date('Y-m-d')
+			);
+		}
+		$this->view->search = $search;
+		$this->view->rs =$db->getAllDocumentAlert($search);
+			
+		$form = new Application_Form_FrmAdvanceSearch();
+		$frm = $form->AdvanceSearch();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_search = $frm;
+			
+	}
 }

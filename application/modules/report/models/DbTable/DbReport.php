@@ -166,5 +166,98 @@ class Report_Model_DbTable_DbReport extends Zend_Db_Table_Abstract
 		$row=$db->fetchRow($sql);
 		return $row;
 	}
+	
+	function getAllDocumentAlert($search){
+		try{
+			$db = $this->getAdapter();
+			$dbp = new Application_Model_DbTable_DbGlobal();
+			$currentLang = $dbp->currentlang();
+			$label = "name_en";
+			if ($currentLang==1){
+				$label = "name_kh";
+			}
+			$sql="SELECT
+						sd.*,
+						d.subject,
+						(select title from dt_document_type where dt_document_type.id = d.document_type limit 1) as doc_type,
+						(select title from dt_deptarment where dt_deptarment.id = d.from_dept limit 1) as from_department,
+						(select title from dt_deptarment where dt_deptarment.id = sd.department_scanner limit 1) as department_scanner,
+						u.full_name AS scan_by,
+						(SELECT $label FROM `ln_view` WHERE TYPE =4 AND sd.scan_type=key_code LIMIT 1) AS scan_type,
+						(SELECT $label FROM `ln_view` WHERE TYPE =5 AND sd.doc_processing=key_code LIMIT 1) AS doc_processing
+					from
+						dt_scan_document as sd,					
+						dt_document as d,
+						rms_users as u
+					where
+						sd.document_id = d.id
+						and sd.scan_by = u.id
+						and sd.is_active=1
+						and sd.doc_processing IN (1,2)
+				";
+			
+			$key = new Application_Model_DbTable_DbKeycode();
+			$datasetting =$key->getKeyCodeMiniInv(TRUE);
+			$amount_day = empty($datasetting['amount_alertday'])?1:$datasetting['amount_alertday'];
+			$end_date= date('Y-m-d');
+			if ($amount_day>1){
+				$end_date= date('Y-m-d',strtotime("-$amount_day day"));
+			}
+			$to_date = (empty($end_date))? '1': " sd.create_date <= '".$end_date." 23:59:59'";
+			$where = " AND $to_date ";
+			
+			if(!empty($search['adv_search'])){
+				$s_where = array();
+				$s_search = addslashes(trim($search['adv_search']));
+				$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+				$s_where[] = " d.subject LIKE '%{$s_search}%'";
+				$s_where[] = " d.ministry_admin_no LIKE '%{$s_search}%'";
+				$s_where[] = " d.department_admin_no LIKE '%{$s_search}%'";
+				$s_where[] = " d.serial_code LIKE '%{$s_search}%'";
+				$where .=' AND ('.implode(' OR ',$s_where).')';
+			}
+			$dbgb = new Application_Model_DbTable_DbGlobal();
+			if(!empty($search['adv_search'])){
+				$s_where = array();
+				$s_search = addslashes(trim($search['adv_search']));
+				$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+				$s_where[] = " d.subject LIKE '%{$s_search}%'";
+				$s_where[] = " d.ministry_admin_no LIKE '%{$s_search}%'";
+				$s_where[] = " d.department_admin_no LIKE '%{$s_search}%'";
+				$s_where[] = " d.serial_code LIKE '%{$s_search}%'";
+				$where .=' AND ('.implode(' OR ',$s_where).')';
+				}
+			if(!empty($search['document_type'])){
+				$condiction = $dbgb->getChildDocType($search['document_type']);
+				if (!empty($condiction)){
+					$where.=" AND d.document_type IN ($condiction)";
+				}else{
+					$where.=" AND d.document_type=".$search['document_type'];
+				}
+			}
+			if(!empty($search['from_dept'])){
+				$condiction = $dbgb->getChildDept($search['from_dept']);
+				if (!empty($condiction)){
+					$where.=" AND d.from_dept IN ($condiction)";
+				}else{
+					$where.=" AND d.from_dept=".$search['from_dept'];
+				}
+			}
+			if(!empty($search['scan_type'])){
+				$where.=" AND sd.scan_type= ".$search['scan_type'];
+			}
+			if($search['doc_process']>-1){
+				$where.=" AND sd.doc_processing= ".$search['doc_process'];
+			}
+			
+			$dbgb = new Application_Model_DbTable_DbGlobal();
+			$where.=$dbgb->getAccessPermission("sd.department_scanner");
+			//echo $sql.$where;
+			return $db->fetchAll($sql.$where);
+		}catch (Exception $e){
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+		}
+	}
+	
 }
 

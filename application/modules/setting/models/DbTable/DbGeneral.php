@@ -66,6 +66,25 @@ class Setting_Model_DbTable_DbGeneral extends Zend_Db_Table_Abstract
 				}
 			}
 			
+			$part= PUBLIC_PATH.'/images/photo/print/';
+			if (!file_exists($part)) {
+				mkdir($part, 0777, true);
+			}
+			$photo_name = $_FILES['photo_print']['name'];
+			if (!empty($photo_name)){
+				$tem =explode(".", $photo_name);
+				$image_name_stu = "background_".date("Y").date("m").date("d").time().".".end($tem);
+				$tmp = $_FILES['photo_print']['tmp_name'];
+				if(move_uploaded_file($tmp, $part.$image_name_stu)){
+					move_uploaded_file($tmp, $part.$image_name_stu);
+					$photo = $image_name_stu;
+						
+					$arr = array('keyValue'=>$photo,);
+					$where=" keyName= 'background'";
+					$this->update($arr, $where);
+				}
+			}
+			
 		}catch(Exception $e){
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}

@@ -14,12 +14,18 @@ public function init()
 		if($this->getRequest()->isPost()){
 			try{
 				$data = $this->getRequest()->getPost();
+				if (empty($data)){
+					Application_Form_FrmMessage::Sucessfull("MAX_SIZE_FILE_UPLOAD", "/setting/general");
+					exit();
+				}
 				$db_gs->updateWebsitesetting($data);
 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS", "/setting/general");
+				exit();
 			}catch (Exception $e){
-				Application_Form_FrmMessage::message("EDIT_FAILE");
 				echo $e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+				Application_Form_FrmMessage::Sucessfull("EDIT_FAILE", "/setting/general");
+				exit();
 			}
 		}
 		$row =array();
@@ -33,6 +39,7 @@ public function init()
 		$row['amount_alertday'] = $db_gs->geLabelByKeyName('amount_alertday');
 		
 		$this->view->logo = $db_gs->geLabelByKeyName('logo');
+		$this->view->background = $db_gs->geLabelByKeyName('background');
 		
 		$fm = new Setting_Form_FrmGeneral();
 		$frm = $fm->FrmGeneral($row);

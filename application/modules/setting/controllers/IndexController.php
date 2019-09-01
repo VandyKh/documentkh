@@ -9,7 +9,7 @@ public function init()
 	}
 	public function indexAction()
 	{
-	  $this->_redirect("setting/label");
+	  $this->_redirect("setting/general");
 	}
 	
 }

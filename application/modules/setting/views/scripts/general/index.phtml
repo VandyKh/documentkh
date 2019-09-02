@@ -88,8 +88,9 @@ tr.header td {
 		    			<div class="form-group">
 		    				<div class="col-sm-12">
 		    				<?php 
+							
 		    					$logo = $this->baseUrl()."/public/images/photo/logo/Logo.png";
-		    					if (!empty($this->logo['value'])){
+		    					if (!empty($this->logo['keyValue'])){
 		    						if (file_exists(PUBLIC_PATH."/images/photo/logo/".$this->logo['keyValue'])){
 		    							$logo = $this->baseUrl()."/public/images/photo/logo/".$this->logo['keyValue'];
 		    						}

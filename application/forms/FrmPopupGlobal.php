@@ -54,7 +54,7 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 				}
 				div#lbSubj {
 				    position: absolute;
-				    top: 165px;
+				    top: 164px;
 				    left: 114px;
 				    vertical-align: bottom;
 				    width: 575px;
@@ -67,17 +67,21 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 				    width: 230px;
 				    text-align: center;
 				}
+				
 				div#lbFromDept {
 				    position: absolute;
-				    top: 146px;
-				    right: 42px;
-				    width: 200px;
-				    text-align: center;
+    top: 142px;
+    right: 0;
+    min-width: 242px;
+    text-align: left;
 				}
 				div#lbDay, div#lbMonth, div#lbYear {
 				    position: absolute;
 				    top: 146px;
 				    text-align: center;
+				}
+				div#lbMonth {
+					top: 142px;
 				}
 				div#lbDay {
 				    width: 30px;

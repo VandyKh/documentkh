@@ -25,11 +25,11 @@ echo $this->headTitle($tr->translate("LOGIN"));
 									<form method="post">
 									<div class="form-group">
 										<label for="exampleInputEmail1"><?php echo $tr->translate("PHONE_EMAIL")?></label>
-										<input type="text" class="form-control" id="email"  name="email" aria-describedby="emailHelp" placeholder="<?php echo $tr->translate("PHONE_EMAIL")?>">
+										<input type="text" autocomplete="off" class="form-control" id="email"  name="email" aria-describedby="emailHelp" placeholder="<?php echo $tr->translate("PHONE_EMAIL")?>">
 									  </div>
 									  <div class="form-group">
 										<label for="exampleInputPassword1"><?php echo $tr->translate("PASSWORD")?></label>
-										<input type="password" class="form-control" id="password"  name="password" placeholder="<?php echo $tr->translate("PASSWORD")?>">
+										<input type="password" autocomplete="off" class="form-control" id="password"  name="password" placeholder="<?php echo $tr->translate("PASSWORD")?>">
 									  </div>
 									  <div class="form-group text-center">
 										 <button type="submit" class="btn btn-primary btn-login"><span class="glyphicon glyphicon-lock"></span> <?php echo $tr->translate("LOGIN")?></button>

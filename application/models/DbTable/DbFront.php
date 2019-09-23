@@ -3,6 +3,10 @@
 class Application_Model_DbTable_DbFront extends Zend_Db_Table_Abstract
 {
 	
+	public static function getFrontUserId(){
+		$session_user=new Zend_Session_Namespace("authfronts");
+		return $session_user->user_id;
+	}
 	public function getUserInfo(){
 		$session_user=new Zend_Session_Namespace("authfronts");
 		$userName=$session_user->user_name;
@@ -59,7 +63,7 @@ class Application_Model_DbTable_DbFront extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		
 		$user = $this->getUserInfo();
-		
+		$user_id = empty($user['user_id'])?0:$user['user_id'];
 		$sql=" SELECT d.*,
 		sd.id as scan_id,
 		sd.comment,
@@ -75,7 +79,7 @@ class Application_Model_DbTable_DbFront extends Zend_Db_Table_Abstract
 			`dt_document` AS d
 			WHERE d.id = sd.document_id 
 			AND sd.is_active = 1";
-		$sql.=" AND sd.scan_by = ".$user['user_id'];
+		$sql.=" AND sd.scan_by = ".$user_id;
 		$sql.=" ORDER BY sd.id DESC";
 		$row=$db->fetchAll($sql);
 		return $row;
@@ -84,7 +88,7 @@ class Application_Model_DbTable_DbFront extends Zend_Db_Table_Abstract
 	function getDocumentScanHistory($search=null){
 		$db = $this->getAdapter();
 		$user = $this->getUserInfo();
-	
+		$user_id = empty($user['user_id'])?0:$user['user_id'];
 		$sql=" SELECT d.*,
 		sd.comment,
 		sd.create_date as scanDate,
@@ -99,7 +103,7 @@ class Application_Model_DbTable_DbFront extends Zend_Db_Table_Abstract
 		`dt_document` AS d
 		WHERE d.id = sd.document_id
 		";
-		$sql.=" AND sd.scan_by = ".$user['user_id'];
+		$sql.=" AND sd.scan_by = ".$user_id;
 		
 		$from_date =(empty($search['start_date']))? '1': "sd.create_date >= '".date("Y-m-d",strtotime($search['start_date']))." 00:00:00'";
 		$to_date = (empty($search['end_date']))? '1': "sd.create_date <= '".date("Y-m-d",strtotime($search['end_date']))." 23:59:59'";
@@ -143,37 +147,50 @@ class Application_Model_DbTable_DbFront extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$db->beginTransaction();
 		try{
-			$arr_old = array(
-					"is_active"			=> 0
-					);
-			$this->_name = "dt_scan_document";
-			$where = "document_id = ".$_data['document_id'];
-			$this->update($arr_old, $where);
-			
-			$user = $this->getUserInfo();
-			$_arr=array(
-					'document_id'	  	=> $_data['document_id'],
-					'scan_by'			=> $user['user_id'],
-					'department_scanner'=> $user['department'],
-					'comment'	  		=> "",
-					'doc_processing'	=> $_data['doc_processing'],
-					'scan_type'	 		=> $_data['scan_type'],
-					'create_date'	 	=> date('Y-m-d H:i:s'),
-					'modify_date' 		=> date('Y-m-d H:i:s'),
-					'status'	  		=> 1,
-					"is_active"			=> 1
-			);
-			$this->_name = "dt_scan_document";
-			$id =  $this->insert($_arr);
-			$db->commit();
+			$checkScan = $this->getScanDocumentByTime($_data['document_id']);
+			if(empty($checkScan)){
+				$arr_old = array(
+						"is_active"			=> 0
+						);
+				$this->_name = "dt_scan_document";
+				$where = "document_id = ".$_data['document_id'];
+				$this->update($arr_old, $where);
+				
+				$user = $this->getUserInfo();
+				$user_id = empty($user['user_id'])?0:$user['user_id'];
+				$_arr=array(
+						'document_id'	  	=> $_data['document_id'],
+						'scan_by'			=> $user_id,
+						'department_scanner'=> $user['department'],
+						'comment'	  		=> "",
+						'doc_processing'	=> $_data['doc_processing'],
+						'scan_type'	 		=> $_data['scan_type'],
+						'create_date'	 	=> date('Y-m-d H:i:s'),
+						'modify_date' 		=> date('Y-m-d H:i:s'),
+						'status'	  		=> 1,
+						"is_active"			=> 1
+				);
+				$this->_name = "dt_scan_document";
+				$id =  $this->insert($_arr);
+				$db->commit();
 			return $id;
+			}
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			$db->rollBack();
 		}
 	}
-	
+	function getScanDocumentByTime($document_id){
+		$db = $this->getAdapter();
+		$date = date("Y-m-d H:i");
+		$sql='SELECT DATE_FORMAT(sc.create_date, "%Y-%m-%d %H:%i"),sc.* FROM `dt_scan_document` AS sc WHERE 1
+			AND DATE_FORMAT(sc.create_date, "%Y-%m-%d %H:%i") = "'.$date.'" 
+			AND sc.document_id =$document_id
+			LIMIT 1';
+		$row=$db->fetchRow($sql);
+		return $row;
+	}
 	public function getScanDocumentyById($scan){
 		$db = $this->getAdapter();
 		$sql=" SELECT sd.*,

@@ -252,7 +252,7 @@ class Report_Model_DbTable_DbReport extends Zend_Db_Table_Abstract
 			
 			$dbgb = new Application_Model_DbTable_DbGlobal();
 			$where.=$dbgb->getAccessPermission("sd.department_scanner");
-			//echo $sql.$where;
+			
 			return $db->fetchAll($sql.$where);
 		}catch (Exception $e){
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());

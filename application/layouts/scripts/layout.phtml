@@ -432,6 +432,7 @@ function exportExcel(){
 			Application_Form_FrmMessage::redirectUrl("/index/login");
 			exit();
 		}
+	}else{
 	}
 	
 	?>
@@ -445,6 +446,10 @@ function exportExcel(){
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<link rel="shortcut icon" href="<?php echo $base_url;?>images/icon.ico" type="image/x-icon"/>
+		<link rel="icon" href="<?php echo $base_url;?>images/icon.ico" sizes="32x32">
+		<link rel="icon" href="<?php echo $base_url;?>images/icon.ico" sizes="192x192">
+		<link rel="apple-touch-icon-precomposed" href="<?php echo $base_url;?>images/icon.ico">
+	
 		<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/bootstrap-4.3.1/css/bootstrap.min.css" rel="stylesheet">
 		<link href="<?php echo $this->baseUrl()."/public"."/templates/";?>plugin/bootstrap-4.3.1/css/bootstrap.css" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Battambang&display=swap" rel="stylesheet">

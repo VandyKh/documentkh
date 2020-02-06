@@ -106,10 +106,10 @@ echo $this->headTitle($tr->translate("SCAN_CLOSE"));
 			type: "POST",
 			success:function(data){
 				
-				if(data==0){
-					$( "#messagescan" ).html('<?php echo $tr->translate("EMPTY_DATA_PLEASE_SCAN_AGAIN")?>');
+				if(data==1){
+					$( "#messagescan" ).html('<?php echo $tr->translate("SCAN_RECEIVE_SUCCESS")?>');
 				}else{
-					$( "#messagescan" ).html('<?php echo $tr->translate("SCAN_CLOSE_SUCCESS")?>');
+					$( "#messagescan" ).html('<?php echo $tr->translate("EMPTY_DATA_PLEASE_SCAN_AGAIN")?>');
 				}
 			}
 

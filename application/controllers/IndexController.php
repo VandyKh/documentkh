@@ -271,8 +271,9 @@ class IndexController extends Zend_Controller_Action
 	    		$arr = array('document_id'=>$row['id'],'scan_type'=>$scantype,'doc_processing'=>$row['status']);
 	    		if ($scantype==1 || $scantype==3){
 	    			$dbdoc->isertScanDocument($arr);
+					$return =1;
 	    		}
-	    		$return =1;
+	    		
     		}else{
     			$return =0;
     		}

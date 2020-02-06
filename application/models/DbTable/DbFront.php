@@ -148,6 +148,7 @@ class Application_Model_DbTable_DbFront extends Zend_Db_Table_Abstract
 		$db->beginTransaction();
 		try{
 			$checkScan = $this->getScanDocumentByTime($_data['document_id']);
+			
 			if(empty($checkScan)){
 				$arr_old = array(
 						"is_active"			=> 0
@@ -176,18 +177,20 @@ class Application_Model_DbTable_DbFront extends Zend_Db_Table_Abstract
 			return $id;
 			}
 		}catch (Exception $e){
-			Application_Form_FrmMessage::message("Application Error");
+			
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+			Application_Form_FrmMessage::message("Application Error");
 			$db->rollBack();
 		}
 	}
 	function getScanDocumentByTime($document_id){
 		$db = $this->getAdapter();
+		$user = $this->getUserInfo();
+				$user_id = empty($user['user_id'])?0:$user['user_id'];
 		$date = date("Y-m-d H:i");
 		$sql='SELECT DATE_FORMAT(sc.create_date, "%Y-%m-%d %H:%i"),sc.* FROM `dt_scan_document` AS sc WHERE 1
-			AND DATE_FORMAT(sc.create_date, "%Y-%m-%d %H:%i") = "'.$date.'" 
-			AND sc.document_id =$document_id
-			LIMIT 1';
+			AND DATE_FORMAT(sc.create_date, "%Y-%m-%d %H:%i") = "'.$date.'" AND sc.document_id ='.$document_id.' AND sc.scan_by = '.$user_id.' LIMIT 1';
+		
 		$row=$db->fetchRow($sql);
 		return $row;
 	}

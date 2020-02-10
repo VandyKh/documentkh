@@ -159,12 +159,14 @@ dojo.require("dijit.form.DateTextBox");
 							</tr>
 							<tr bgcolor="#c1d0f3" class="style" align="center" >
 								<td rowspan="2"><?php echo $tr->translate("NUM");?></td>
-								<td colspan="3"><?php echo $tr->translate("DOCUMENT_INFO");?></td>
+								<td colspan="5"><?php echo $tr->translate("DOCUMENT_INFO");?></td>
 								<td colspan="6"><?php echo $tr->translate("SCAN_INFO");?></td>
 							</tr>
 							<tr bgcolor="#c1d0f3" class="style" align="center" >
 								
 								<td><?php echo $tr->translate("SUBJECT");?></td>
+								<td><?php echo $tr->translate("MINISTRY_ADMIN_NO");?></td>
+								<td><?php echo $tr->translate("DEPARTMENT_ADMIN_NO");?></td>
 								<td><?php echo $tr->translate("DOCUMENT_TYPE");?></td>
 								<td><?php echo $tr->translate("FROM_DEPARTMENT");?></td>
 								
@@ -185,10 +187,21 @@ dojo.require("dijit.form.DateTextBox");
 		              				<?php echo $rs['subject']?>
 		              				</span>
 		              			</td>
+								<td align="center" ><?php echo $rs['ministry_admin_no']?></td>
+		              			<td align="center" ><?php echo $rs['department_admin_no']?></td>
+								
 		              			<td align="center" ><?php echo $rs['doc_type']?></td>
-		              			<td align="center" ><?php echo $rs['from_department']?></td>
+		              			<td align="center" >
+									<span style=" line-height: 18px; white-space: normal !important; display:block; width: 80px ;padding: 1px;overflow-wrap: break-word;">
+									<?php echo $rs['from_department']?>
+									</span>
+								</td>
 		              			<td align="center" ><?php echo $rs['scan_by']?></td>
-		              			<td align="center" ><?php echo $rs['department_scanner']?></td>
+		              			<td align="center" >
+									<span style=" line-height: 18px; white-space: normal !important; display:block; width: 80px ;padding: 1px;overflow-wrap: break-word;">
+									<?php echo $rs['department_scanner']?>
+									</span>
+								</td>
 		              			<td ><?php echo $rs['scan_type']?></td>
 		              			<td ><?php echo $rs['doc_processing']?></td>
 								<td >

@@ -31,6 +31,19 @@ class Report_indexController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
 		 
+	}function rptDocumentDetailAction(){
+		$db  = new Report_Model_DbTable_DbReport();
+		$id = $this->getRequest()->getParam("id");
+		$id = empty($id)?0:$id;
+		$row = $db->getDocumentyById($id);
+	    $this->view->row=$row;
+		
+		if (empty($row)){
+    		Application_Form_FrmMessage::Sucessfull('NO_RECORD', "/report/index/rpt-document");
+    		exit();
+    	}
+    	$this->view->scanRecord = $db->getScanDocumentByDocId($row['id']);
+		 
 	}
 	
 	function rptScanAction(){

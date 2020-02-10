@@ -4,6 +4,7 @@ echo $this->headTitle($tr->translate("DOCUMENT"));
 $frm = $this->frm_search;
 $urlEdit = $this->baseUrl()."/document/index/edit/id/";
 $urlDelete = $this->baseUrl()."/document/index/delete/id/";
+$urlDetail = $this->baseUrl()."/report/index/rpt-document-detail/id/";
 $urlPrint = $this->baseUrl()."/report/index/prints/id/";
 
 ?>
@@ -72,6 +73,8 @@ $(function(){
 				url='<?php echo $urlEdit;?>';
 			}else if(key=="print"){
 				url='<?php echo $urlPrint;?>';
+			}else if(key=="detail"){
+				url='<?php echo $urlDetail;?>';
 			}else if(key=="delete"){
 				url='<?php echo $urlDelete;?>';
 			}
@@ -79,6 +82,7 @@ $(function(){
 		},
 		items: {
 			"edit": {name: "<?php echo $tr->translate("EDIT");?>", icon: "edit", accesskey: "e"},
+			"detail": {name: "<?php echo $tr->translate("VIEW_PROCESS");?>", icon: "fa-file-text"},
 			"print": {name: "<?php echo $tr->translate("PRINT");?>", icon: "fa-print"},
 			"delete": {name: "<?php echo $tr->translate("DELETE");?>", icon: "fa-trash"},
 		}

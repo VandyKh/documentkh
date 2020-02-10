@@ -11,7 +11,7 @@
 			  		$report_url =  $db_user->getArrAclReport(null);
 			   	   if(!empty($report_url)){
 			   	   foreach($report_url as $url){
-			   	   if($url['action']=='index' OR $url['action']=='print-data' ){continue;}
+			   	   if($url['action']=='index' OR $url['action']=='print-data' OR $url['action']=='prints'  OR $url['action']=='rpt-document-detail'){continue;}
 			   	   	?>
 					<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
 						<a href="<?php echo $this->url(array('module'=>$url['module'],'controller'=>$url['controller'],'action'=>$url['action'])); ?>">

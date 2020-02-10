@@ -83,6 +83,8 @@ class Report_Model_DbTable_DbReport extends Zend_Db_Table_Abstract
 			$sql="SELECT
 						sd.*,
 						d.subject,
+						d.ministry_admin_no,
+						d.department_admin_no,
 						(select title from dt_document_type where dt_document_type.id = d.document_type limit 1) as doc_type,
 						(select title from dt_deptarment where dt_deptarment.id = d.from_dept limit 1) as from_department,
 						(select title from dt_deptarment where dt_deptarment.id = sd.department_scanner limit 1) as department_scanner,
@@ -257,6 +259,22 @@ class Report_Model_DbTable_DbReport extends Zend_Db_Table_Abstract
 		}catch (Exception $e){
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
+	}
+	
+	public function getScanDocumentByDocId($id){
+		$db = $this->getAdapter();
+		$this->_name="dt_scan_document";
+		$sql=" SELECT sd.*,
+		(SELECT dp.title FROM `dt_deptarment` AS dp WHERE dp.id = sd.department_scanner LIMIT 1) department,
+		(SELECT dp.code FROM `dt_deptarment` AS dp WHERE dp.id = sd.department_scanner LIMIT 1) departmentCode,
+		(SELECT u.full_name FROM `rms_users` AS u WHERE u.id = sd.scan_by LIMIT 1) AS scanBy,
+		(SELECT v.name_kh FROM `ln_view` AS v WHERE v.key_code = sd.scan_type AND v.type = 4 LIMIT 1) AS scanType,
+		(SELECT v.name_kh FROM `ln_view` AS v WHERE v.key_code = sd.doc_processing AND v.type = 5 LIMIT 1) AS proccess
+		 FROM $this->_name AS sd
+		 WHERE sd.document_id = ".$db->quote($id)."";
+		$sql.=" ORDER BY sd.id DESC";
+		$row=$db->fetchAll($sql);
+		return $row;
 	}
 	
 }
